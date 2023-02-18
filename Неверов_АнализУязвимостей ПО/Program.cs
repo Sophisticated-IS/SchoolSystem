@@ -1,7 +1,11 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Неверов_АнализУязвимостей_ПО.Data;
+using Неверов_АнализУязвимостей_ПО.DataBase;
 
+using var db = new DataBaseContext();
+db.InitializeDictionaries();
+db.SaveChanges();
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -22,7 +26,6 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseStaticFiles();
-
 
 app.UseRouting();
 
