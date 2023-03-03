@@ -8,6 +8,7 @@ public sealed class Pupils : IEquatable<Pupils>
     public Classes Class { get; set; }
     public int ClassId { get; set; }
     public string FIO { get; set; }
+    public bool IsDeleted { get; set; }
 
     public bool Equals(Pupils? other)
     {
