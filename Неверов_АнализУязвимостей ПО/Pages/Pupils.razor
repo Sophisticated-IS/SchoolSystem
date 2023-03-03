@@ -87,6 +87,8 @@
 
     private void AddPupil()
     {
+        if (string.IsNullOrEmpty(_fio) || _selectedClassId <= 0) return;
+
         var pupil = new DataBase.Schema.Pupils()
         {
             FIO = _fio,

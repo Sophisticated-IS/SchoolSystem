@@ -119,7 +119,9 @@
 
     private void AddClass()
     {
-        var createdClass = new DataBase.Schema.Classes()
+        if (_parallelId<=0 || _teacherId<=0) return;
+
+            var createdClass = new DataBase.Schema.Classes()
         {
             SchoolYearId = _schoolYear.Id,
             ClassParallelsId = _parallelId,

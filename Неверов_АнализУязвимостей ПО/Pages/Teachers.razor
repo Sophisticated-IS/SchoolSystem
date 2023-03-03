@@ -34,13 +34,14 @@
                             @teacher.Comment
                         </td>
                         <td>
-                            <button class="btn btn-danger" @onclick="(() => DeleteTeacher(teacher))">Удалить
+                            <button class="btn btn-danger" @onclick="(() => DeleteTeacher(teacher))">
+                                Удалить
                             </button>
                         </td>
                     </tr>
                     </tbody>
                 }
-                
+
             </table>
         </div>
     </div>
@@ -74,6 +75,8 @@
 
     private void AddTeacher()
     {
+        if (string.IsNullOrEmpty(_fio)) return;
+
         var teacher = new DataBase.Schema.Teachers()
         {
             Comment = _comment,
@@ -87,10 +90,10 @@
         _fio = "";
     }
 
-    private void DeleteTeacher( DataBase.Schema.Teachers teacher)
+    private void DeleteTeacher(DataBase.Schema.Teachers teacher)
     {
         DBContext.Teachers.Remove(teacher);
         DBContext.SaveChanges();
         TeachersList.Remove(teacher);
-    } 
+    }
 }
