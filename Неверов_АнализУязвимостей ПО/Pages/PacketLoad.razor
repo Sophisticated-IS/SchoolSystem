@@ -1,0 +1,70 @@
+﻿@page "/packetLoad"
+@using Неверов_АнализУязвимостей_ПО.Models
+@using System.Globalization
+@using CsvHelper
+@using CsvHelper.Configuration
+@using Неверов_АнализУязвимостей_ПО.DataBase
+@inject DataBaseContext DBContext
+
+
+<PageTitle>Пакетная загрузка</PageTitle>
+
+<h1>Выберите что будете загружать</h1>
+
+<div>
+    <select @bind="_selectedOption">
+        <option value="@PacketLoadTypes.Classes">Классы</option>
+        <option value="@PacketLoadTypes.Pupils">Ученики</option>
+    </select>
+</div>
+
+<h1>Выберите файл для загрузки</h1>
+
+    <div >
+        <div class="col">
+        <InputFile OnChange="@LoadFile" />
+        </div>
+    </div>
+
+@code
+{
+    PacketLoadTypes _selectedOption = PacketLoadTypes.Classes;
+    private async Task LoadFile(InputFileChangeEventArgs e)
+    {
+        var f = e.File;
+
+        switch (_selectedOption)
+        {
+            case PacketLoadTypes.Classes:
+                var csvConfiguration = new CsvConfiguration(CultureInfo.InvariantCulture)
+                {
+                    Delimiter = ";",
+                    MissingFieldFound = (x)=>{/*nothing to do*/},
+                    HeaderValidated = (x)=>{/*nothing to do*/}
+                    };
+                using (var reader = new StreamReader(f.OpenReadStream()))
+                using (var csv = new CsvReader(reader, csvConfiguration))
+                {
+                    var classesEnumerable = csv.GetRecordsAsync<DataBase.Schema.Classes>();
+                    await foreach (var cls in classesEnumerable)
+                    {
+                        
+                    }
+                }
+                
+                break;
+            case PacketLoadTypes.Pupils:
+                using (var reader = new StreamReader(f.OpenReadStream()))
+                using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
+                {
+                    var pupilsEnumerable = csv.GetRecordsAsync<DataBase.Schema.Pupils>();
+                }
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+    } 
+    
+    
+}
+    

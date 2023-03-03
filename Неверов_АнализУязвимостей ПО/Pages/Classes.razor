@@ -1,0 +1,139 @@
+﻿@page "/classes"
+@using Неверов_АнализУязвимостей_ПО.DataBase
+@using Неверов_АнализУязвимостей_ПО.DataBase.Schema
+@inject DataBaseContext DBContext
+<PageTitle>Классы</PageTitle>
+
+
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col">
+            <h2> Классы </h2>
+            <table class="table table-striped">
+                <thead class="table-dark">
+                <tr>
+
+                    <th scope="col">
+                        ID
+                    </th>
+
+                    <th scope="col">
+                        Учебный год
+                    </th>
+                    <th scope="col">
+                        Паралель
+                    </th>
+                    <th scope="col">
+                        ФИО Учителя
+                    </th>
+                    <th scope="col">
+
+                    </th>
+
+                </tr>
+                </thead>
+
+                @foreach (var cls in _classList)
+                {
+                    <tbody>
+                    <tr>
+                        <td>
+                            @cls.Id
+                        </td>
+                        <td>
+                            @cls.SchoolYear.SchoolYear
+                        </td>
+                        <td>
+                            @cls.ClassParallel.Parallel
+                        </td>
+                        <td>
+                            @cls.Teacher.FIO
+                        </td>
+
+                        <td>
+                            <button class="btn btn-danger" @onclick="(() => DeleteClass(cls))">
+                                Удалить
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                }
+
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+
+    <div class="col">
+        <label>@_schoolYear.SchoolYear</label>
+    </div>
+    <div class="col">
+
+        <select class="form-select" @bind="_parallelId">
+            @foreach (var parallel in _parallelsList)
+            {
+                <option value="@parallel.Id">@parallel.Parallel </option>
+            }
+        </select>
+    </div>
+    <div class="col">
+        <select class="form-select"@bind="_teacherId">
+            @foreach (var t in _teachersList)
+            {
+                <option value="@t.Id">@t.FIO</option>
+            }
+        </select>
+    </div>
+    <div class="col">
+        <button class="btn btn-success" @onclick="AddClass">
+            Добавить класс
+        </button>
+    </div>
+</div>
+
+@code
+{
+    private List<Неверов_АнализУязвимостей_ПО.DataBase.Schema.Classes> _classList;
+    private List<Неверов_АнализУязвимостей_ПО.DataBase.Schema.ClassParallels> _parallelsList;
+    private List<Неверов_АнализУязвимостей_ПО.DataBase.Schema.Teachers> _teachersList;
+
+    protected override void OnInitialized()
+    {
+        _classList = DBContext.Classes.ToList();
+        _parallelsList = DBContext.ClassParallels.ToList();
+        _parallelId = _parallelsList.First().Id;
+        _teachersList = DBContext.Teachers.ToList();
+        _teacherId = _teachersList.Any()?_teachersList.First().Id:-1;
+        _schoolYear = DBContext.SchoolYears.OrderBy(k => k.SchoolYear).Last();
+    }
+
+    SchoolYears _schoolYear;
+    int _parallelId;
+    int _teacherId;
+
+    private void AddClass()
+    {
+        var createdClass = new DataBase.Schema.Classes()
+        {
+            SchoolYearId = _schoolYear.Id,
+            ClassParallelsId = _parallelId,
+            TeacherId = _teacherId
+        };
+        DBContext.Classes.Add(createdClass);
+        DBContext.SaveChanges();
+        _classList.Add(createdClass);
+    }
+
+    private void DeleteClass(DataBase.Schema.Classes cls)
+    {
+        DBContext.Classes.Remove(cls);
+        DBContext.SaveChanges();
+        _classList.Remove(cls);
+    } 
+}

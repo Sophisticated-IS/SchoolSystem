@@ -1,0 +1,96 @@
+﻿@page "/teachers"
+@using Неверов_АнализУязвимостей_ПО.DataBase
+@inject DataBaseContext DBContext
+<PageTitle>Учителя</PageTitle>
+
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col">
+            <h2> Учителя </h2>
+            <table class="table table-striped">
+                <thead class="table-dark">
+                <tr>
+                    <th scope="col">
+                        ФИО
+                    </th>
+                    <th scope="col">
+                        Комментарий
+                    </th>
+                    <th>
+
+                    </th>
+                </tr>
+                </thead>
+
+                @foreach (var teacher in TeachersList)
+                {
+                    <tbody>
+                    <tr>
+                        <td>
+                            @teacher.FIO
+                        </td>
+                        <td>
+                            @teacher.Comment
+                        </td>
+                        <td>
+                            <button class="btn btn-danger" @onclick="(() => DeleteTeacher(teacher))">Удалить
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                }
+                
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <input class="form-control" placeholder="Введите ФИО" @bind="_fio"/>
+    </div>
+    <div class="col">
+        <input class="form-control" placeholder="Введите Комментарий" @bind="_comment"/>
+    </div>
+    <div class="col">
+        <button class="btn btn-success" @onclick="AddTeacher">
+            Добавить учителя
+        </button>
+    </div>
+</div>
+
+@code
+{
+    private List<DataBase.Schema.Teachers> TeachersList;
+
+    protected override void OnInitialized()
+    {
+        TeachersList = DBContext.Teachers.ToList();
+    }
+
+    string _comment = "";
+    string _fio = "";
+
+    private void AddTeacher()
+    {
+        var teacher = new DataBase.Schema.Teachers()
+        {
+            Comment = _comment,
+            FIO = _fio
+        };
+        DBContext.Teachers.Add(teacher);
+        DBContext.SaveChanges();
+        TeachersList.Add(teacher);
+
+        _comment = "";
+        _fio = "";
+    }
+
+    private void DeleteTeacher( DataBase.Schema.Teachers teacher)
+    {
+        DBContext.Teachers.Remove(teacher);
+        DBContext.SaveChanges();
+        TeachersList.Remove(teacher);
+    } 
+}
