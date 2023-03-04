@@ -1,6 +1,3 @@
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
-using Неверов_АнализУязвимостей_ПО.Data;
 using Неверов_АнализУязвимостей_ПО.DataBase;
 
 using var db = new DataBaseContext();
@@ -11,7 +8,6 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.AddSingleton<DataBaseContext>();
 
 var app = builder.Build();
