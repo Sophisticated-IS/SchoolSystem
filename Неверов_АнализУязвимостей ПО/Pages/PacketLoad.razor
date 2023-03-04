@@ -1,5 +1,4 @@
 ﻿@page "/packetLoad"
-@using Неверов_АнализУязвимостей_ПО.Models
 @using System.Globalization
 @using CsvHelper
 @using CsvHelper.Configuration
@@ -65,7 +64,7 @@
                         <tbody>
                         <tr>
                             <td>
-                                @_schoolYear.SchoolYear
+                                @_schoolYear!.SchoolYear
                             </td>
                             <td>
                                 @cls.ParallelId
@@ -94,11 +93,21 @@
             </div>
         </div>
     </div>
-    
-    <div align="right">
-        <button class="btn btn-success" @onclick="AddClasses">
-            Добавить все загруженные классы из файла
-        </button>
+
+    <div id="container">
+        <div id="leftThing">
+            <button class="btn btn-danger" @onclick="ClearClasses">
+                Очистить все записи
+            </button>
+        </div>
+
+        <div id="content"/>
+
+        <div id="rightThing" align="right">
+            <button class="btn btn-success" @onclick="AddClasses">
+                Добавить все загруженные классы из файла
+            </button>
+        </div>
     </div>
 }
 
@@ -113,6 +122,9 @@
                     <thead class="table-dark">
                     <tr>
                         <th scope="col">
+                            Id Ученика
+                        </th>
+                        <th scope="col">
                             ФИО Ученика
                         </th>
                         <th scope="col">
@@ -126,11 +138,14 @@
                     {
                         <tbody>
                         <tr>
-                            <td>
-                                @ppl.FIO
+                            <td contenteditable="true">
+                                <input class="form-control" @bind="ppl.Id"/>
                             </td>
-                            <td>
-                                @ppl.ClassId
+                            <td contenteditable="true">
+                                <input class="form-control" @bind="ppl.FIO"/>
+                            </td>
+                            <td contenteditable="true">
+                                <input class="form-control" @bind="ppl.ClassId"/>
                             </td>
                         </tr>
                         </tbody>
@@ -143,20 +158,30 @@
             </div>
         </div>
     </div>
-    
-    <div align="right">
-        <button class="btn btn-success" @onclick="AddPupils">
-            Добавить всех загруженных учеников из файла
-        </button>
+
+    <div id="container">
+        <div id="leftThing">
+            <button class="btn btn-danger" @onclick="ClearPupils">
+                Очистить все записи
+            </button>
+        </div>
+
+        <div id="content"/>
+
+        <div id="rightThing">
+            <button class="btn btn-success" @onclick="AddPupils">
+                Добавить всех загруженных учеников из файла
+            </button>
+        </div>
     </div>
 }
 
 @code
 {
     PacketLoadTypes _selectedOption = PacketLoadTypes.Classes;
-    private List<ClassDto> _classDtoList = new List<ClassDto>();
-    private List<PupilDto> _pupilDtoList = new List<PupilDto>();
-    SchoolYears _schoolYear;
+    private readonly List<ClassDto> _classDtoList = new List<ClassDto>();
+    private readonly List<PupilDto> _pupilDtoList = new List<PupilDto>();
+    SchoolYears? _schoolYear;
 
     private async Task LoadFile(InputFileChangeEventArgs e)
     {
@@ -200,7 +225,6 @@
 
     private async Task ClassesHandler(IBrowserFile f, CsvConfiguration csvConfiguration)
     {
-    //todo тогда нужно добавить Id и проверять обновлять
         _classDtoList.Clear();
 
         using var reader = new StreamReader(f.OpenReadStream());
@@ -212,32 +236,53 @@
         }
     }
 
-    private async Task AddClasses()
+
+    //Добавление загруденных Учеников из файла
+    private async Task AddPupils()
     {
-        foreach (var pupilDto in _pupilDtoList)
+        foreach (var pupilDto in _pupilDtoList.ToArray())
         {
-            if (DBContext.Classes.Where(c => c.Id == pupilDto.ClassId).Any())
+            //если класса такого нет то выходим
+            if (!DBContext.Classes.Where(c => c.Id == pupilDto.ClassId).Any()) continue;
+    
+            //если просто происходит добавление ученика
+            if (pupilDto.Id == 0)
             {
                 DBContext.Pupils.Add(new DataBase.Schema.Pupils()
                 {
                     FIO = pupilDto.FIO, ClassId = pupilDto.ClassId
                 });
-                await DBContext.SaveChangesAsync().ConfigureAwait(false);
-                _pupilDtoList.Remove(pupilDto);
             }
+            else //происходит перевод ученика
+            {
+                var pupilsEnumerable = DBContext.Pupils.Where(p => p.Id == pupilDto.Id);
+                if (pupilsEnumerable.Any())
+                {
+                    var pupil = pupilsEnumerable.First(); 
+                    pupil.IsDeleted = true;
+                    DBContext.Pupils.Add(new DataBase.Schema.Pupils
+                    {
+                        FIO = pupilDto.FIO, ClassId = pupilDto.ClassId
+                    });
+                }
+            }
+            
+            await DBContext.SaveChangesAsync().ConfigureAwait(false);
+            _pupilDtoList.Remove(pupilDto);
         }
     }
 
-    private async Task AddPupils()
+    //Добавление загруженных Классов из файла
+    private async Task AddClasses()
     {
-        foreach (var classDto in _classDtoList)
+        foreach (var classDto in _classDtoList.ToArray())
         {
             if (DBContext.ClassParallels.Where(p => p.Id == classDto.ParallelId).Any() &&
                 DBContext.Teachers.Where(t => t.Id == classDto.TeacherId).Any())
             {
                 DBContext.Classes.Add(new DataBase.Schema.Classes
                 {
-                    SchoolYearId = _schoolYear.Id,
+                    SchoolYearId = _schoolYear!.Id,
                     ClassParallelsId = classDto.ParallelId,
                     TeacherId = classDto.TeacherId
                 });
@@ -247,4 +292,13 @@
         }
     }
 
+    private void ClearClasses()
+    {
+        _classDtoList.Clear();
+    }
+
+    private void ClearPupils()
+    {
+        _pupilDtoList.Clear();
+    }
 }

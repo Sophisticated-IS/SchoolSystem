@@ -2,6 +2,7 @@
 
 internal sealed class PupilDto : IEquatable<PupilDto>
 {
+    public int Id { get; set; }
     public string FIO { get; set; }
     public int ClassId { get; set; }
 
