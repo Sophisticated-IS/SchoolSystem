@@ -2,6 +2,7 @@
 @using System.Globalization
 @using CsvHelper
 @using CsvHelper.Configuration
+@using Microsoft.EntityFrameworkCore.Scaffolding
 @using Неверов_АнализУязвимостей_ПО.DataBase
 @using Неверов_АнализУязвимостей_ПО.DataBase.Schema
 @using Неверов_АнализУязвимостей_ПО.Models.DTO
@@ -138,14 +139,24 @@
                     {
                         <tbody>
                         <tr>
-                            <td contenteditable="true">
-                                <input class="form-control" @bind="ppl.Id"/>
+                            <td>
+                                <select class="form-select" @bind="ppl.Id">
+                                    @foreach (var p in _pupils)
+                                    {
+                                        <option value="@p.Id">@p.Id </option>
+                                    }
+                                </select>
                             </td>
-                            <td contenteditable="true">
+                            <td >
                                 <input class="form-control" @bind="ppl.FIO"/>
                             </td>
-                            <td contenteditable="true">
-                                <input class="form-control" @bind="ppl.ClassId"/>
+                            <td>
+                                <select class="form-select" @bind="ppl.ClassId">
+                                    @foreach (var cls in _classes)
+                                    {
+                                        <option value="@cls.Id">@cls.Id </option>
+                                    }
+                                </select>
                             </td>
                         </tr>
                         </tbody>
@@ -180,12 +191,19 @@
 {
     PacketLoadTypes _selectedOption = PacketLoadTypes.Classes;
     private readonly List<ClassDto> _classDtoList = new List<ClassDto>();
+    private readonly List<Неверов_АнализУязвимостей_ПО.DataBase.Schema.Classes> _classes = new();
+    private readonly List<Неверов_АнализУязвимостей_ПО.DataBase.Schema.Pupils> _pupils = new();
     private readonly List<PupilDto> _pupilDtoList = new List<PupilDto>();
     SchoolYears? _schoolYear;
 
     private async Task LoadFile(InputFileChangeEventArgs e)
     {
         _schoolYear = DBContext.SchoolYears.OrderBy(k => k.SchoolYear).Last();
+        _classes.Clear();
+        _classes.AddRange(DBContext.Classes);
+        _pupils.Clear();
+        _pupils.AddRange(DBContext.Pupils.Where(p=>!p.IsDeleted));
+
         var f = e.File;
         var csvConfiguration = new CsvConfiguration(CultureInfo.InvariantCulture)
         {
@@ -242,10 +260,10 @@
     {
         foreach (var pupilDto in _pupilDtoList.ToArray())
         {
-            //если класса такого нет то выходим
+    //если класса такого нет то выходим
             if (!DBContext.Classes.Where(c => c.Id == pupilDto.ClassId).Any()) continue;
-    
-            //если просто происходит добавление ученика
+
+    //если просто происходит добавление ученика
             if (pupilDto.Id == 0)
             {
                 DBContext.Pupils.Add(new DataBase.Schema.Pupils()
@@ -258,7 +276,7 @@
                 var pupilsEnumerable = DBContext.Pupils.Where(p => p.Id == pupilDto.Id);
                 if (pupilsEnumerable.Any())
                 {
-                    var pupil = pupilsEnumerable.First(); 
+                    var pupil = pupilsEnumerable.First();
                     pupil.IsDeleted = true;
                     DBContext.Pupils.Add(new DataBase.Schema.Pupils
                     {
@@ -266,7 +284,7 @@
                     });
                 }
             }
-            
+
             await DBContext.SaveChangesAsync().ConfigureAwait(false);
             _pupilDtoList.Remove(pupilDto);
         }

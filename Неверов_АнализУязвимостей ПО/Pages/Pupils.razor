@@ -12,6 +12,9 @@
                 <thead class="table-dark">
                 <tr>
                     <th scope="col">
+                        ID
+                    </th>
+                    <th scope="col">
                         ФИО
                     </th>
                     <th scope="col">
@@ -27,6 +30,9 @@
                 {
                     <tbody>
                     <tr>
+                        <td>
+                            @pupil.Id
+                        </td>
                         <td>
                             @pupil.FIO
                         </td>
@@ -78,7 +84,7 @@
 
     protected override void OnInitialized()
     {
-        _pupilsList = DBContext.Pupils.Where(p=>!p.IsDeleted).ToList();
+        _pupilsList = DBContext.Pupils.Where(p => !p.IsDeleted).ToList();
         _classes = DBContext.Classes.ToList();
     }
 
