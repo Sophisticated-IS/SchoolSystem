@@ -14,7 +14,7 @@
 * /Pages - представление Web страниц + с# code
 * **СУБД** - [PGSQL Server 14.0](https://www.enterprisedb.com/downloads/postgres-postgresql-downloads)
 * **ORM** - Entity Framework Core
-
+* Примеры данных для пакетной загрузки лежат в папке ../SampleData
 ## Схема БД
 ![DB Schema.jpg](wwwroot%2FDB%20Schema.jpg)
 
