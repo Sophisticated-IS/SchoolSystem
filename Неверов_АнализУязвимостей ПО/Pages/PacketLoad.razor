@@ -68,13 +68,23 @@
                                 @_schoolYear!.SchoolYear
                             </td>
                             <td>
-                                @cls.ParallelId
+                                <select class="form-select" @bind="cls.ParallelId">
+                                    @foreach (var p in _parallels)
+                                    {
+                                        <option value="@p.Id">@p.Id </option>
+                                    }
+                                </select>
                             </td>
                             <td>
                                 @cls.Parallel
                             </td>
                             <td>
-                                @cls.TeacherId
+                                <select class="form-select" @bind="cls.TeacherId">
+                                    @foreach (var t in _teachers)
+                                    {
+                                        <option value="@t.Id">@t.Id </option>
+                                    }
+                                </select>
                             </td>
                             <td>
                                 @cls.TeacherFIO
@@ -193,16 +203,26 @@
     private readonly List<ClassDto> _classDtoList = new List<ClassDto>();
     private readonly List<Неверов_АнализУязвимостей_ПО.DataBase.Schema.Classes> _classes = new();
     private readonly List<Неверов_АнализУязвимостей_ПО.DataBase.Schema.Pupils> _pupils = new();
+    private readonly List<Неверов_АнализУязвимостей_ПО.DataBase.Schema.ClassParallels> _parallels = new();
+    private readonly List<Неверов_АнализУязвимостей_ПО.DataBase.Schema.Teachers> _teachers = new();
     private readonly List<PupilDto> _pupilDtoList = new List<PupilDto>();
     SchoolYears? _schoolYear;
 
     private async Task LoadFile(InputFileChangeEventArgs e)
     {
         _schoolYear = DBContext.SchoolYears.OrderBy(k => k.SchoolYear).Last();
+
         _classes.Clear();
         _classes.AddRange(DBContext.Classes);
+
         _pupils.Clear();
         _pupils.AddRange(DBContext.Pupils.Where(p => !p.IsDeleted));
+
+        _parallels.Clear();
+        _parallels.AddRange(DBContext.ClassParallels);
+
+        _teachers.Clear();
+        _teachers.AddRange(DBContext.Teachers);
 
         var f = e.File;
         var csvConfiguration = new CsvConfiguration(CultureInfo.InvariantCulture)
