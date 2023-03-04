@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Неверов_АнализУязвимостей_ПО.DataBase.Schema;
+using Serilog;
+using Неверов_АнализУязвимостей_ПО.Models.DataBase.Schema;
 
-namespace Неверов_АнализУязвимостей_ПО.DataBase;
+namespace Неверов_АнализУязвимостей_ПО.Models.DataBase;
 
 public sealed class DataBaseContext : DbContext
 {
@@ -15,7 +16,16 @@ public sealed class DataBaseContext : DbContext
 
     public DataBaseContext()
     {
-        Database.EnsureCreated();
+        try
+        {
+            Database.EnsureCreated();
+            Log.Information("База данных успешно создана");
+        }
+        catch (Exception exception)
+        {
+            Log.Error(exception, "Не удалось создать базу данных");
+        }
+        
     }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -83,5 +93,6 @@ public sealed class DataBaseContext : DbContext
             }
         }
 
+        Log.Information("Справочники БД были проинициализированы");
     }
 }

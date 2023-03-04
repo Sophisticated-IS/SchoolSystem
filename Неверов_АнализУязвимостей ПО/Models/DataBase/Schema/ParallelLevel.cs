@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Неверов_АнализУязвимостей_ПО.DataBase.Schema;
+namespace Неверов_АнализУязвимостей_ПО.Models.DataBase.Schema;
 
 public sealed class ParallelLevel
 {

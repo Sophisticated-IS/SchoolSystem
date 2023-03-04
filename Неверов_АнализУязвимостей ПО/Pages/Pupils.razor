@@ -1,5 +1,6 @@
 ﻿@page "/pupils"
-@using Неверов_АнализУязвимостей_ПО.DataBase
+@using Serilog
+@using Неверов_АнализУязвимостей_ПО.Models.DataBase
 @inject DataBaseContext DBContext
 
 <div class="container-fluid">
@@ -78,8 +79,8 @@
 
 @code
 {
-    private IList<DataBase.Schema.Pupils> _pupilsList;
-    private IList<DataBase.Schema.Classes> _classes;
+    private IList<Models.DataBase.Schema.Pupils> _pupilsList;
+    private IList<Models.DataBase.Schema.Classes> _classes;
 
     protected override void OnInitialized()
     {
@@ -94,7 +95,7 @@
     {
         if (string.IsNullOrEmpty(_fio) || _selectedClassId <= 0) return;
 
-        var pupil = new DataBase.Schema.Pupils()
+        var pupil = new Models.DataBase.Schema.Pupils()
         {
             FIO = _fio,
             ClassId = _selectedClassId
@@ -103,13 +104,17 @@
         DBContext.SaveChanges();
         _pupilsList.Add(pupil);
         _fio = "";
+        
+        Log.Information("Был добавлен новый ученик {@pupil}", pupil);
     }
 
-    private void DeletePupil(DataBase.Schema.Pupils pupil)
+    private void DeletePupil(Models.DataBase.Schema.Pupils pupil)
     {
         pupil.IsDeleted = true;
         DBContext.Pupils.Update(pupil);
         DBContext.SaveChanges();
         _pupilsList.Remove(pupil);
+        
+        Log.Information("Был удалён ученик {@pupil}", pupil);
     }
 }

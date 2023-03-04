@@ -2,8 +2,9 @@
 @using System.Globalization
 @using CsvHelper
 @using CsvHelper.Configuration
-@using Неверов_АнализУязвимостей_ПО.DataBase
-@using Неверов_АнализУязвимостей_ПО.DataBase.Schema
+@using Serilog
+@using Неверов_АнализУязвимостей_ПО.Models.DataBase
+@using Неверов_АнализУязвимостей_ПО.Models.DataBase.Schema
 @using Неверов_АнализУязвимостей_ПО.Models.DTO
 @inject DataBaseContext DBContext
 
@@ -200,10 +201,10 @@
 {
     PacketLoadTypes _selectedOption = PacketLoadTypes.Classes;
     private readonly List<ClassDto> _classDtoList = new List<ClassDto>();
-    private readonly List<Неверов_АнализУязвимостей_ПО.DataBase.Schema.Classes> _classes = new();
-    private readonly List<Неверов_АнализУязвимостей_ПО.DataBase.Schema.Pupils> _pupils = new();
-    private readonly List<Неверов_АнализУязвимостей_ПО.DataBase.Schema.ClassParallels> _parallels = new();
-    private readonly List<Неверов_АнализУязвимостей_ПО.DataBase.Schema.Teachers> _teachers = new();
+    private readonly List<Models.DataBase.Schema.Classes> _classes = new();
+    private readonly List<Models.DataBase.Schema.Pupils> _pupils = new();
+    private readonly List<ClassParallels> _parallels = new();
+    private readonly List<Models.DataBase.Schema.Teachers> _teachers = new();
     private readonly List<PupilDto> _pupilDtoList = new List<PupilDto>();
     SchoolYears? _schoolYear;
 
@@ -285,7 +286,7 @@
     //если просто происходит добавление ученика
             if (pupilDto.Id == 0)
             {
-                DBContext.Pupils.Add(new DataBase.Schema.Pupils()
+                DBContext.Pupils.Add(new Models.DataBase.Schema.Pupils()
                 {
                     FIO = pupilDto.FIO, ClassId = pupilDto.ClassId
                 });
@@ -297,7 +298,7 @@
                 {
                     var pupil = pupilsEnumerable.First();
                     pupil.IsDeleted = true;
-                    DBContext.Pupils.Add(new DataBase.Schema.Pupils
+                    DBContext.Pupils.Add(new Models.DataBase.Schema.Pupils
                     {
                         FIO = pupilDto.FIO, ClassId = pupilDto.ClassId
                     });
@@ -307,6 +308,8 @@
             await DBContext.SaveChangesAsync().ConfigureAwait(false);
             _pupilDtoList.Remove(pupilDto);
         }
+        
+        Log.Information("Произошла пакетная загрузка Учеников!");
     }
 
     //Добавление загруженных Классов из файла
@@ -317,7 +320,7 @@
             if (DBContext.ClassParallels.Where(p => p.Id == classDto.ParallelId).Any() &&
                 DBContext.Teachers.Where(t => t.Id == classDto.TeacherId).Any())
             {
-                DBContext.Classes.Add(new DataBase.Schema.Classes
+                DBContext.Classes.Add(new Models.DataBase.Schema.Classes
                 {
                     SchoolYearId = _schoolYear!.Id,
                     ClassParallelsId = classDto.ParallelId,
@@ -326,7 +329,13 @@
                 await DBContext.SaveChangesAsync().ConfigureAwait(false);
                 _classDtoList.Remove(classDto);
             }
+            else
+            {
+                Log.Information("Класс не был добавлен из-за нарушения целостности ключей", classDto);
+            }
         }
+        
+        Log.Information("Произошла пакетная загрузка Классов!");
     }
 
     private void ClearClasses()

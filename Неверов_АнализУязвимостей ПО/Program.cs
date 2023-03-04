@@ -1,4 +1,7 @@
-using Неверов_АнализУязвимостей_ПО.DataBase;
+
+using Serilog;
+using Serilog.Events;
+using Неверов_АнализУязвимостей_ПО.Models.DataBase;
 
 using var db = new DataBaseContext();
 db.InitializeDictionaries();
@@ -9,6 +12,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<DataBaseContext>();
+
+Log.Logger = new LoggerConfiguration()
+             .MinimumLevel.Debug()
+             .WriteTo.File("log.txt")
+             .WriteTo.Console(restrictedToMinimumLevel: LogEventLevel.Information)
+             .CreateLogger();
 
 var app = builder.Build();
 
@@ -25,7 +34,6 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
 

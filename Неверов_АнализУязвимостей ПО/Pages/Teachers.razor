@@ -1,5 +1,6 @@
 ﻿@page "/teachers"
-@using Неверов_АнализУязвимостей_ПО.DataBase
+@using Serilog
+@using Неверов_АнализУязвимостей_ПО.Models.DataBase
 @inject DataBaseContext DBContext
 <PageTitle>Учителя</PageTitle>
 
@@ -69,7 +70,7 @@
 
 @code
 {
-    private List<DataBase.Schema.Teachers> TeachersList;
+    private List<Models.DataBase.Schema.Teachers> TeachersList;
 
     protected override void OnInitialized()
     {
@@ -83,7 +84,7 @@
     {
         if (string.IsNullOrEmpty(_fio)) return;
 
-        var teacher = new DataBase.Schema.Teachers()
+        var teacher = new Models.DataBase.Schema.Teachers()
         {
             Comment = _comment,
             FIO = _fio
@@ -94,12 +95,16 @@
 
         _comment = "";
         _fio = "";
+
+        Log.Information("Был добавлен учитель {@teacher}", teacher);
     }
 
-    private void DeleteTeacher(DataBase.Schema.Teachers teacher)
+    private void DeleteTeacher(Models.DataBase.Schema.Teachers teacher)
     {
         DBContext.Teachers.Remove(teacher);
         DBContext.SaveChanges();
         TeachersList.Remove(teacher);
+        
+        Log.Information("Был удален учитель {@teacher}", teacher);
     }
 }

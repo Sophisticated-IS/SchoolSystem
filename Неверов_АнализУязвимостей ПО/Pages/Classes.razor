@@ -1,6 +1,7 @@
 ﻿@page "/classes"
-@using Неверов_АнализУязвимостей_ПО.DataBase
-@using Неверов_АнализУязвимостей_ПО.DataBase.Schema
+@using Неверов_АнализУязвимостей_ПО.Models.DataBase
+@using Неверов_АнализУязвимостей_ПО.Models.DataBase.Schema
+@using Serilog
 @inject DataBaseContext DBContext
 <PageTitle>Классы</PageTitle>
 
@@ -100,9 +101,9 @@
 
 @code
 {
-    private List<Неверов_АнализУязвимостей_ПО.DataBase.Schema.Classes> _classList;
-    private List<Неверов_АнализУязвимостей_ПО.DataBase.Schema.ClassParallels> _parallelsList;
-    private List<Неверов_АнализУязвимостей_ПО.DataBase.Schema.Teachers> _teachersList;
+    private List<Models.DataBase.Schema.Classes> _classList;
+    private List<ClassParallels> _parallelsList;
+    private List<Models.DataBase.Schema.Teachers> _teachersList;
 
     protected override void OnInitialized()
     {
@@ -122,7 +123,7 @@
     {
         if (_parallelId<=0 || _teacherId<=0) return;
 
-            var createdClass = new DataBase.Schema.Classes()
+            var createdClass = new Models.DataBase.Schema.Classes()
         {
             SchoolYearId = _schoolYear.Id,
             ClassParallelsId = _parallelId,
@@ -131,12 +132,16 @@
         DBContext.Classes.Add(createdClass);
         DBContext.SaveChanges();
         _classList.Add(createdClass);
+        
+        Log.Information("Был добавлен новый класс {@class}", createdClass);
     }
 
-    private void DeleteClass(DataBase.Schema.Classes cls)
+    private void DeleteClass(Models.DataBase.Schema.Classes cls)
     {
         DBContext.Classes.Remove(cls);
         DBContext.SaveChanges();
         _classList.Remove(cls);
+        
+        Log.Information("Был удален класс {@class}", cls);
     } 
 }

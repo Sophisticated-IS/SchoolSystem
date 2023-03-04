@@ -1,5 +1,6 @@
 ﻿@page "/parallels"
-@using Неверов_АнализУязвимостей_ПО.DataBase
+@using Неверов_АнализУязвимостей_ПО.Models.DataBase
+@using Неверов_АнализУязвимостей_ПО.Models.DataBase.Schema
 @inject DataBaseContext DBContext
 <PageTitle>Параллели</PageTitle>
 
@@ -49,7 +50,7 @@
 
 @code
 {
-    private List<DataBase.Schema.ClassParallels> _parallelsList;
+    private List<ClassParallels> _parallelsList;
     
     protected override void OnInitialized()
     {
