@@ -202,7 +202,7 @@
         _classes.Clear();
         _classes.AddRange(DBContext.Classes);
         _pupils.Clear();
-        _pupils.AddRange(DBContext.Pupils.Where(p=>!p.IsDeleted));
+        _pupils.AddRange(DBContext.Pupils.Where(p => !p.IsDeleted));
 
         var f = e.File;
         var csvConfiguration = new CsvConfiguration(CultureInfo.InvariantCulture)
