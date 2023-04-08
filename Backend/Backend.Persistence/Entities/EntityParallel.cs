@@ -11,6 +11,5 @@ internal sealed class EntityParallel : IEntityTypeConfiguration<Parallel>
     {
         builder.Property(p => p.Id).ValueGeneratedOnAdd();
         builder.Property(p => p.Number);
-        builder.HasOne(p => p.SchoolYear).WithMany();
     }
 }
