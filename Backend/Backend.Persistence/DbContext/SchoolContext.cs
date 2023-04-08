@@ -1,10 +1,11 @@
-﻿using Backend.Domain;
+﻿using Backend.Application;
+using Backend.Domain;
 using Microsoft.EntityFrameworkCore;
 using Parallel = Backend.Domain.Parallel;
 
 namespace Backend.Persistence.DbContext;
 
-internal sealed class PgsqlContext : Microsoft.EntityFrameworkCore.DbContext
+public sealed class SchoolContext : Microsoft.EntityFrameworkCore.DbContext, ISchoolDbContext
 {
     public DbSet<Teacher> Teachers { get; set; }
     public DbSet<Pupil> Pupils { get; set; }
@@ -12,7 +13,7 @@ internal sealed class PgsqlContext : Microsoft.EntityFrameworkCore.DbContext
     public DbSet<SchoolYear> SchoolYears { get; set; }
     public DbSet<Domain.Parallel> Parallel { get; set; }
     
-    public PgsqlContext(DbContextOptions<PgsqlContext> options) : base(options)
+    public SchoolContext(DbContextOptions<SchoolContext> options) : base(options)
     {
         Database.EnsureDeleted();
         Database.EnsureCreated();
