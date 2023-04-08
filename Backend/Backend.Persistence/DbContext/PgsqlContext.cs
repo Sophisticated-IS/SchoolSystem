@@ -5,16 +5,16 @@ namespace Backend.Persistence.DbContext;
 
 internal sealed class PgsqlContext : Microsoft.EntityFrameworkCore.DbContext
 {
-
-    public PgsqlContext()
+    public DbSet<Teacher> Teachers { get; set; }
+    public DbSet<Pupil> Pupils { get; set; }
+    public DbSet<Class> Classes { get; set; }
+    public DbSet<SchoolYear> SchoolYears { get; set; }
+    public DbSet<Domain.Parallel> Parallel { get; set; }
+    
+    public PgsqlContext(DbContextOptions<PgsqlContext> options) : base(options)
     {
         Database.EnsureDeleted();
         Database.EnsureCreated();
-    }
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        //todo вынести бы в настройки приложения
-        optionsBuilder.UseNpgsql("Host=localhost;Port=5436;Database=SchoolBackendDB;Username=postgres;Password=postgres;");
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -26,5 +26,7 @@ internal sealed class PgsqlContext : Microsoft.EntityFrameworkCore.DbContext
         modelBuilder.Entity<SchoolYear>().ToTable("SchoolYears");
         modelBuilder.Entity<Teacher>().ToTable("Teachers");
         modelBuilder.Entity<Pupil>().ToTable("Pupils");
+        modelBuilder.Entity<Class>().HasMany(c=>c.Teachers).WithMany(t=>t.Classes)
+                    .UsingEntity(j=>j.ToTable("TeachersClasses"));
     }
 }
