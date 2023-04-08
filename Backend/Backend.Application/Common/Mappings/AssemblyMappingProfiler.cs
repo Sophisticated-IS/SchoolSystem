@@ -3,7 +3,7 @@ using AutoMapper;
 
 namespace Backend.Application.Common.Mappings;
 
-internal sealed class AssemblyMappingProfiler : Profile
+public sealed class AssemblyMappingProfiler : Profile
 {
     public AssemblyMappingProfiler(Assembly assembly)
     {
