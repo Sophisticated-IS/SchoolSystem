@@ -1,0 +1,88 @@
+version: "3.9"
+
+networks:
+  commonNetwork:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.0.0/24
+          gateway: 192.168.0.1
+
+volumes:
+  postgres:
+
+services:
+  postgres:
+    image: postgres:15.2
+    
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    
+    networks:
+      - commonNetwork
+    
+    environment:
+      POSTGRES_DB: keycloakDB
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    command: -h "postgres" -p "5432"
+    restart: unless-stopped
+  
+  #todo Команда экспорта всего реалма в единый файл с пользователями в текущую директорию 
+  #todo kc.bat export --dir . --users realm_file
+  keycloak:
+    
+    volumes:
+      - ./KeyCloak/realmImports:/opt/keycloak/data/import
+    
+    networks:
+      - commonNetwork
+    
+    build:
+      context: .
+      dockerfile: ./KeyCloak/DockerFile_KeyCloak
+    
+    environment:
+      KEYCLOAK_IMPORT: /opt/keycloak/data/import/data_analytics-realm.json
+      #KC_DB: postgres # в отдельном докер файле из-за bug Keycloak https://github.com/keycloak/keycloak/issues/15898
+      KC_DB_USERNAME: postgres
+      KC_DB_PASSWORD: postgres
+      KC_DB_URL_DATABASE: keycloakDB
+      KC_DB_SCHEMA: public
+      KC_DB_URL_HOST: postgres
+      KC_DB_URL_PORT: 5432      
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+#      KC_HOSTNAME: keycloak не стоит указывать так перестаёт открываться консоль админа
+      KC_HOSTNAME_STRICT: false
+      KC_HOSTNAME_STRICT_HTTPS: false
+      KC_PROXY: edge
+      KC_LOG_LEVEL: WARN
+      KC_HEALTH_ENABLED: false
+      ENV KC_METRICS_ENABLED: false
+    ports:
+      - "8080:8080"
+    command: "start --optimized --import-realm"
+    
+    restart: unless-stopped
+    depends_on:
+      - postgres
+  
+  infoservice:
+    build:
+      context: .
+      dockerfile: ./InfoService/Dockerfile_InfoService
+    ports:
+      - "5064:5064"
+    container_name: infoservice
+    networks:
+      - commonNetwork
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development #Development используется для переопределения конфигов под Docker 
+    restart: unless-stopped
+    
+    depends_on:
+      - postgres
+      - keycloak
