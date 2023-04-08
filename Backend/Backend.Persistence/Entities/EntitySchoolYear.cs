@@ -13,6 +13,7 @@ internal sealed class EntitySchoolYear : IEntityTypeConfiguration<SchoolYear>
         
         builder.HasData(new SchoolYear
         {
+            Id = 1,
             Year = 2023
         });
     }
