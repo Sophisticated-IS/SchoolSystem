@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Backend.Application.Commands.Handlers;
 
-internal sealed class CreateTeacherCommandHandler : IRequestHandler<CreateTeacherCommand,ApiModels.Teacher>
+internal sealed class CreateTeacherCommandHandler : IRequestHandler<CreateTeacherCommand,ApiModels.TeacherWithId>
 {
     
     private readonly ISchoolDbContext _schoolDbContext;
@@ -15,19 +15,13 @@ internal sealed class CreateTeacherCommandHandler : IRequestHandler<CreateTeache
         _schoolDbContext = schoolDbContext;
         _mapper = mapper;
     }
-    public async Task<ApiModels.Teacher> Handle(CreateTeacherCommand request, CancellationToken cancellationToken)
-    { 
-        var teacher = new Teacher()
-        {
-            Name = request.Name,
-            SurName = request.SurName,
-            MiddleName = request.MiddleName,
-            Comment = request.Comment
-        };
-        
+    public async Task<ApiModels.TeacherWithId> Handle(CreateTeacherCommand request, CancellationToken cancellationToken)
+    {
+        var teacher = _mapper.Map<Teacher>(request);
+
         await _schoolDbContext.Teachers.AddAsync(teacher, cancellationToken).ConfigureAwait(false);
         await _schoolDbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
        
-        return _mapper.Map<ApiModels.Teacher>(teacher);
+        return _mapper.Map<ApiModels.TeacherWithId>(teacher);
     }
 }

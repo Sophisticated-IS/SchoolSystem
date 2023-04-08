@@ -35,7 +35,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-
+var ctx = app.Services.GetRequiredService<SchoolContext>();
 
 app.UseHttpsRedirection();
 

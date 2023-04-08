@@ -2,7 +2,7 @@
 
 namespace Backend.Application.Commands;
 
-public sealed class CreateTeacherCommand : IRequest<ApiModels.Teacher>
+public sealed class CreateTeacherCommand : IRequest<ApiModels.TeacherWithId>
 {
     public string Name { get; set; }
     public string SurName { get; set; }

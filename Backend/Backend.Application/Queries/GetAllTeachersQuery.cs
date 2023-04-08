@@ -2,7 +2,7 @@
 
 namespace Backend.Application.Queries;
 
-public sealed class GetAllTeachersQuery : IRequest<IEnumerable<ApiModels.Teacher>>
+public sealed class GetAllTeachersQuery : IRequest<IEnumerable<ApiModels.TeacherWithId>>
 {
     
 }
