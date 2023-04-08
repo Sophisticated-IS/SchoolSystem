@@ -36,4 +36,11 @@ public class TeacherController : ControllerBase
         var createTeacherCmd = _mapper.Map<CreateTeacherCommand>(teacher);
         return await _mediator.Send(createTeacherCmd);
     }
+    
+    [HttpDelete(Name = "DeleteTeacher")]
+    public async Task DeleteTeacher(uint id)
+    {
+        await _mediator.Send(new DeleteTeacherCommand(id));
+    }
+
 }
