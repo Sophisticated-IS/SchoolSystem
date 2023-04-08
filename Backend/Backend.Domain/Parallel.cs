@@ -4,7 +4,7 @@ namespace Backend.Domain;
 
 public sealed class Parallel
 {
-    public int Id { get; init; }
+    public uint Id { get; init; }
     
     /// <summary>
     /// Номер параллели

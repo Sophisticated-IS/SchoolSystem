@@ -4,7 +4,7 @@ namespace Backend.Domain;
 
 public sealed class Class 
 {
-    public int Id { get; init; }
+    public uint Id { get; init; }
     /// <summary>
     /// Буква класса 
     /// </summary>

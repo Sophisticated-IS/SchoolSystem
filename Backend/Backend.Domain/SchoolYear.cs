@@ -7,6 +7,6 @@ namespace Backend.Domain;
 /// </summary>
 public sealed class SchoolYear
 {
-    public int Id { get; init; }
+    public uint Id { get; init; }
     public ushort Year { get; set; }
 }

@@ -7,7 +7,7 @@ namespace Backend.Domain;
 /// </summary>
 public sealed class Pupil 
 {
-    public int Id { get; init; }
+    public uint Id { get; init; }
     public Class Class { get; set; }
     public string Name { get; set; }
     public string SurName { get; set; }
