@@ -2,6 +2,10 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Неверов_АнализУязвимостей ПО", "Неверов_АнализУязвимостей ПО\Неверов_АнализУязвимостей ПО.csproj", "{C5C35A30-41D1-4281-BC49-085288203C26}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Backend", "Backend\Backend.csproj", "{226158F4-9A7C-4A1D-90CA-9BC62DD66720}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DockerFiles", "DockerFiles", "{9DDAF76D-53C4-4831-9F35-77CB6E1C450F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +16,9 @@ Global
 		{C5C35A30-41D1-4281-BC49-085288203C26}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C5C35A30-41D1-4281-BC49-085288203C26}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C5C35A30-41D1-4281-BC49-085288203C26}.Release|Any CPU.Build.0 = Release|Any CPU
+		{226158F4-9A7C-4A1D-90CA-9BC62DD66720}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{226158F4-9A7C-4A1D-90CA-9BC62DD66720}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{226158F4-9A7C-4A1D-90CA-9BC62DD66720}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{226158F4-9A7C-4A1D-90CA-9BC62DD66720}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
