@@ -15,8 +15,6 @@ public sealed class SchoolContext : Microsoft.EntityFrameworkCore.DbContext, ISc
     
     public SchoolContext(DbContextOptions<SchoolContext> options) : base(options)
     {
-        Database.EnsureDeleted();
-        Database.EnsureCreated();
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -35,7 +35,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-var ctx = app.Services.GetRequiredService<SchoolContext>();
+var scope = builder.Services.BuildServiceProvider().CreateScope();
+var schoolContext = scope.ServiceProvider.GetRequiredService<SchoolContext>();
+schoolContext.Database.EnsureCreated();
+
 
 app.UseHttpsRedirection();
 

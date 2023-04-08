@@ -20,8 +20,9 @@ internal sealed class CreateTeacherCommandHandler : IRequestHandler<CreateTeache
         var teacher = _mapper.Map<Teacher>(request);
 
         await _schoolDbContext.Teachers.AddAsync(teacher, cancellationToken).ConfigureAwait(false);
-        await _schoolDbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
-       
-        return _mapper.Map<ApiModels.TeacherWithId>(teacher);
+        await _schoolDbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false); 
+        
+        var teacherWithId = new  ApiModels.TeacherWithId{Id = teacher.Id};
+        return _mapper.Map(request,teacherWithId);
     }
 }
