@@ -14,7 +14,7 @@ public sealed class DeleteTeacherCommandHandler : IRequestHandler<DeleteTeacherC
 
     public async Task Handle(DeleteTeacherCommand request, CancellationToken cancellationToken)
     {
-        var teacher = await _schoolDbContext.Teachers.FirstOrDefaultAsync(cancellationToken: cancellationToken);
+        var teacher = await _schoolDbContext.Teachers.FirstOrDefaultAsync((t)=>t.Id == request.Id, cancellationToken);
         if (teacher is null) return;
         
         _schoolDbContext.Teachers.Remove(teacher);
