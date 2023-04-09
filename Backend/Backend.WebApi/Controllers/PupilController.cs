@@ -25,9 +25,9 @@ public class PupilController : Controller
     {
         return await _mediator.Send(new GetAllPupilsQuery());
     }
-    
+
     [HttpPut]
-    public async void  Task(uint pupilId,uint classId)  
+    public async Task UpdatePupilClass(uint pupilId,uint classId)  
     {
         var command = new UpdatePupilClassesCommand(pupilId,classId);
         await _mediator.Send(command);

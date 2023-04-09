@@ -1,4 +1,5 @@
-﻿using Backend.Application.Queries;
+﻿using Backend.Application.ApiModels;
+using Backend.Application.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,7 +22,13 @@ public class ClassesController : Controller
         return await _mediator.Send(new GetAllClassesQuery());
     }
     
-    [HttpGet("ClassTeachers")]
+    [HttpGet("{id}")]
+    public async Task<Class> GetClass(uint id)
+    {
+        return await _mediator.Send(new GetClassByIdQuery(id));
+    }
+
+    [HttpGet("TeachersInClass")]
     public async Task<IEnumerable<uint>> GetClassTeachers(uint classId)
     {
         return await _mediator.Send(new GetClassTeacherQuery(classId));
