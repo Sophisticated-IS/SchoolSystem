@@ -10,6 +10,9 @@ public sealed class Parallel
     /// Номер параллели
     /// </summary>
     public byte Number { get; init; }
-    
+
+    public uint SchoolYearId { get; set; }
     public SchoolYear SchoolYear { get; set; }
+
+    public ICollection<Class> Classes { get; set; }
 }

@@ -42,5 +42,4 @@ public class TeacherController : ControllerBase
     {
         await _mediator.Send(new DeleteTeacherCommand(id));
     }
-
 }

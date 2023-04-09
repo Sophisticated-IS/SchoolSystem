@@ -24,6 +24,8 @@ var connectionString = builder.Configuration
 builder.Services.AddDbContext<ISchoolDbContext,SchoolContext>(options =>
 {
     options.UseNpgsql(connectionString);
+    options.EnableSensitiveDataLogging();
+    options.EnableDetailedErrors();
 });
 
 var app = builder.Build();
@@ -37,6 +39,7 @@ if (app.Environment.IsDevelopment())
 
 var scope = builder.Services.BuildServiceProvider().CreateScope();
 var schoolContext = scope.ServiceProvider.GetRequiredService<SchoolContext>();
+schoolContext.Database.EnsureDeleted();
 schoolContext.Database.EnsureCreated();
 
 

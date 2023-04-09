@@ -10,11 +10,5 @@ internal sealed class EntitySchoolYear : IEntityTypeConfiguration<SchoolYear>
     {
         builder.Property(p => p.Id).ValueGeneratedOnAdd();
         builder.HasIndex(p=>p.Year).IsUnique(true);
-        
-        builder.HasData(new SchoolYear
-        {
-            Id = 1,
-            Year = 2023
-        });
     }
 }
