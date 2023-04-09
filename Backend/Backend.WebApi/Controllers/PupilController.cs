@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Backend.Application.ApiModels;
 using Backend.Application.Commands;
 using Backend.Application.Queries;
 using MediatR;
@@ -21,9 +22,15 @@ public class PupilController : Controller
     }
      
     [HttpGet]
-    public async Task<IEnumerable<Application.ApiModels.PupilWithId>> GetAllTeachers()
+    public async Task<IEnumerable<Application.ApiModels.PupilWithId>> GetAllPupils()
     {
         return await _mediator.Send(new GetAllPupilsQuery());
+    }
+    
+    [HttpGet("{id}/Class")]
+    public async Task<Class> GetPupilClass(uint id)
+    {
+        return await _mediator.Send(new GetPupilClassByIdQuery(id));
     }
 
     [HttpPut]
@@ -41,8 +48,8 @@ public class PupilController : Controller
     }
     
     [HttpDelete]
-    public async Task DeletePupil(uint id)
+    public async Task DeletePupil(uint pupilId)
     {
-        await _mediator.Send(new DeletePupilCommand(id));
+        await _mediator.Send(new DeletePupilCommand(pupilId));
     }
 }
