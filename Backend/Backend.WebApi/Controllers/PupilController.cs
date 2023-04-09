@@ -1,4 +1,6 @@
-﻿using Backend.Application.Queries;
+﻿using AutoMapper;
+using Backend.Application.Commands;
+using Backend.Application.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,14 +12,24 @@ public class PupilController : Controller
 {
 
     private readonly IMediator _mediator;
-    public PupilController(IMediator mediator)
+    private readonly IMapper _mapper;
+    
+    public PupilController(IMediator mediator,IMapper mapper)
     {
         _mediator = mediator;
+        _mapper = mapper;
     }
      
     [HttpGet(Name = "GetAllPupils")]
-    public async Task<IEnumerable<Application.ApiModels.Pupil>> GetAllTeachers()
+    public async Task<IEnumerable<Application.ApiModels.PupilWithId>> GetAllTeachers()
     {
         return await _mediator.Send(new GetAllPupilsQuery());
+    }
+    
+    [HttpPost(Name = "CreatePupil")]
+    public async Task<Application.ApiModels.PupilWithId> CreatePupil(Application.ApiModels.Pupil pupil)
+    {
+        var pupilCommand = _mapper.Map<CreatePupilCommand>(pupil);
+        return await _mediator.Send(pupilCommand);
     }
 }

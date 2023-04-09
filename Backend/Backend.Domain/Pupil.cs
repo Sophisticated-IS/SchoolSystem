@@ -9,7 +9,7 @@ public sealed class Pupil
 {
     public uint Id { get; init; }
     public Class Class { get; set; }
-    public uint ClassId { get; set; }
+    public uint? ClassId { get; set; }
     public string Name { get; set; }
     public string SurName { get; set; }
     public string MiddleName { get; set; }
