@@ -44,10 +44,10 @@ public class TeacherController : ControllerBase
     }
 
     [HttpPut]
-    public async Task UpdateTeacher(uint teacherId,uint[] classIds)  
+    public async Task<uint[]> UpdateTeacher(uint teacherId,uint[] classIds)  
     {
         var updateTeacherCmd = new UpdateTeacherClassesCommand(teacherId,classIds);
-        await _mediator.Send(updateTeacherCmd);
+        return await _mediator.Send(updateTeacherCmd);
     }
     
     [HttpDelete]
