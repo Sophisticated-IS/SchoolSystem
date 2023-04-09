@@ -24,7 +24,7 @@ public class TeacherController : ControllerBase
     }
 
     
-    [HttpGet(Name = "GetAllTeachers")]
+    [HttpGet]
     public async Task<IEnumerable<Application.ApiModels.TeacherWithId>> GetAllTeachers()
     {
         return await _mediator.Send(new GetAllTeachersQuery());
@@ -36,21 +36,21 @@ public class TeacherController : ControllerBase
         return await _mediator.Send(new GetTeacherByIdQuery(id));
     }
     
-    [HttpPost(Name = "CreateTeacher")]
+    [HttpPost]
     public async Task<TeacherWithId> CreateTeacher(Application.ApiModels.Teacher teacher)
     {
         var createTeacherCmd = _mapper.Map<CreateTeacherCommand>(teacher);
         return await _mediator.Send(createTeacherCmd);
     }
 
-    [HttpPut(Name = "UpdateTeacherClasses")]
+    [HttpPut]
     public async Task UpdateTeacher(uint teacherId,uint[] classIds)  
     {
         var updateTeacherCmd = new UpdateTeacherClassesCommand(teacherId,classIds);
         await _mediator.Send(updateTeacherCmd);
     }
     
-    [HttpDelete(Name = "DeleteTeacher")]
+    [HttpDelete]
     public async Task DeleteTeacher(uint id)
     {
         await _mediator.Send(new DeleteTeacherCommand(id));

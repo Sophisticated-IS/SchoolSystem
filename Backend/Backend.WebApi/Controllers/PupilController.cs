@@ -20,16 +20,22 @@ public class PupilController : Controller
         _mapper = mapper;
     }
      
-    [HttpGet(Name = "GetAllPupils")]
+    [HttpGet]
     public async Task<IEnumerable<Application.ApiModels.PupilWithId>> GetAllTeachers()
     {
         return await _mediator.Send(new GetAllPupilsQuery());
     }
     
-    [HttpPost(Name = "CreatePupil")]
+    [HttpPost]
     public async Task<Application.ApiModels.PupilWithId> CreatePupil(Application.ApiModels.Pupil pupil)
     {
         var pupilCommand = _mapper.Map<CreatePupilCommand>(pupil);
         return await _mediator.Send(pupilCommand);
+    }
+    
+    [HttpDelete]
+    public async Task DeletePupil(uint id)
+    {
+        await _mediator.Send(new DeletePupilCommand(id));
     }
 }
