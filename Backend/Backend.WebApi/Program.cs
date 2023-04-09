@@ -2,6 +2,7 @@ using System.Reflection;
 using Backend.Application;
 using Backend.Application.Common.Mappings;
 using Backend.Persistence.DbContext;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,11 +31,8 @@ builder.Services.AddDbContext<ISchoolDbContext,SchoolContext>(options =>
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseSwagger();
+app.UseSwaggerUI();
 
 var scope = builder.Services.BuildServiceProvider().CreateScope();
 var schoolContext = scope.ServiceProvider.GetRequiredService<SchoolContext>();
