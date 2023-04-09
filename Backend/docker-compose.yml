@@ -1,13 +1,5 @@
 version: "3.9"
 
-networks:
-  commonNetwork:
-    driver: bridge
-    ipam:
-      config:
-        - subnet: 192.168.0.0/24
-          gateway: 192.168.0.1
-
 volumes:
   postgres:
 
@@ -17,9 +9,6 @@ services:
 
     volumes:
       - postgres:/var/lib/postgresql/data
-
-    networks:
-      - commonNetwork
 
     environment:
       POSTGRES_DB: keycloakDB
@@ -75,8 +64,6 @@ services:
     ports:
       - "80:80"
       - "5041:5041"
-    networks:
-      - commonNetwork
     environment:
       ASPNETCORE_ENVIRONMENT: Development #Development используется для переопределения конфигов под Docker 
     restart: unless-stopped

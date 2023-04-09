@@ -2,7 +2,6 @@ using System.Reflection;
 using Backend.Application;
 using Backend.Application.Common.Mappings;
 using Backend.Persistence.DbContext;
-using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
