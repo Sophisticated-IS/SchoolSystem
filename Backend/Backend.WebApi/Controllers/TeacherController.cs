@@ -51,8 +51,8 @@ public class TeacherController : ControllerBase
     }
     
     [HttpDelete]
-    public async Task DeleteTeacher(uint id)
+    public async Task DeleteTeacher(uint teacherId)
     {
-        await _mediator.Send(new DeleteTeacherCommand(id));
+        await _mediator.Send(new DeleteTeacherCommand(teacherId));
     }
 }
