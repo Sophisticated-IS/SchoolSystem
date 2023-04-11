@@ -28,11 +28,14 @@ builder.Services.AddDbContext<ISchoolDbContext,SchoolContext>(options =>
     options.EnableDetailedErrors();
 });
 
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-app.UseSwagger();
-app.UseSwaggerUI();
+builder.Services.AddCors(options =>  
+{  
+    options.AddPolicy(name: "ReactCorsPolicy",  
+        policy  =>  
+        {  
+            policy.WithOrigins("http://localhost:3000"); 
+        });  
+});  
 
 var scope = builder.Services.BuildServiceProvider().CreateScope();
 var schoolContext = scope.ServiceProvider.GetRequiredService<SchoolContext>();
@@ -40,10 +43,17 @@ schoolContext.Database.EnsureDeleted();
 schoolContext.Database.EnsureCreated();
 
 
-app.UseHttpsRedirection();
 
-app.UseAuthorization();
+var app = builder.Build();
 
+// Configure the HTTP request pipeline.
+app.UseSwagger();
+app.UseSwaggerUI();
+
+// app.UseHttpsRedirection();
+// app.UseAuthorization();
+app.UseRouting();
+app.UseCors("ReactCorsPolicy");
 app.MapControllers();
 
 app.Run();
