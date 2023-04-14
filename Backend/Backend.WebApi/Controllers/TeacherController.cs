@@ -36,6 +36,15 @@ public class TeacherController : ControllerBase
     [Authorize(Roles = "SchoolAdmin")]
     [Authorize(Roles = "Teacher")]
     [Authorize(Roles = "Pupil")]
+    [HttpGet]
+    public async Task<IEnumerable<Application.ApiModels.TeacherWithId>> GetFilteredTeachers(Application.ApiModels.Teacher teacher)
+    {
+        return await _mediator.Send(new GetFilteredTeachersQuery(teacher.Name,teacher.SurName,teacher.MiddleName));
+    }
+    
+    [Authorize(Roles = "SchoolAdmin")]
+    [Authorize(Roles = "Teacher")]
+    [Authorize(Roles = "Pupil")]
     [HttpGet("{id}")]
     public async Task<TeacherWithId> GetTeacherById(uint id)
     {
