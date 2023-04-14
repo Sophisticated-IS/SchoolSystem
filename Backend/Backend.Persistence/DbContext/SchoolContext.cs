@@ -20,7 +20,7 @@ public sealed class SchoolContext : Microsoft.EntityFrameworkCore.DbContext, ISc
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
-      
+
         modelBuilder.Entity<Class>().ToTable("Classes");
         modelBuilder.Entity<Domain.Parallel>().ToTable("Parallels");
         modelBuilder.Entity<SchoolYear>().ToTable("SchoolYears");
@@ -29,7 +29,7 @@ public sealed class SchoolContext : Microsoft.EntityFrameworkCore.DbContext, ISc
 
         SeedData(modelBuilder);
     }
-    
+
 
     private void SeedData(ModelBuilder modelBuilder)
     {
@@ -38,14 +38,17 @@ public sealed class SchoolContext : Microsoft.EntityFrameworkCore.DbContext, ISc
             Id = 1,
             Year = 2023
         };
+
+
         modelBuilder.Entity<SchoolYear>().HasData(schoolYear);
 
+
+        #region ParallelsClassInput
 
         var parallels = new List<Parallel>();
         var classes = new List<Class>();
         for (uint i = 1, j = 0; i <= 11; i++)
         {
-        
             var parallel = new Parallel
             {
                 Id = i,
@@ -53,8 +56,8 @@ public sealed class SchoolContext : Microsoft.EntityFrameworkCore.DbContext, ISc
                 SchoolYearId = schoolYear.Id
             };
             parallels.Add(parallel);
-        
-        
+
+
             classes.Add(new()
             {
                 Id = ++j,
@@ -83,148 +86,47 @@ public sealed class SchoolContext : Microsoft.EntityFrameworkCore.DbContext, ISc
                     ParallelId = parallel.Id
                 });
         }
+
         modelBuilder.Entity<Class>().HasData(classes);
         modelBuilder.Entity<Parallel>().HasData(parallels);
 
-        var pupils = new List<Pupil>
+        #endregion
+
+
+        var pupils = new List<Pupil>();
+        var pupilId = 1u;
+        for (int i = 1; i <= 11; i++)
         {
-            new()
+            for (int j = 1; j <= 4; j++)
             {
-                Id = 1,
-                Name = "Иван",
-                SurName = "Иванов",
-                MiddleName = "Иванович",
-                IsDeleted = false,
-                ClassId = classes[0].Id
-            },
-            new()
-            {
-                Id = 2,
-                Name = "Петр",
-                SurName = "Петров",
-                MiddleName = "Петрович",
-                IsDeleted = false,
-                ClassId = classes[1].Id
-            },
-            new()
-            {
-                Id = 3,
-                Name = "Сергей",
-                SurName = "Сергеев",
-                MiddleName = "Сергеевич",
-                IsDeleted = false,
-                ClassId = classes[2].Id
-            },
-            new()
-            {
-                Id = 4,
-                Name = "Антон",
-                SurName = "Антонов",
-                MiddleName = "Антонович",
-                IsDeleted = false,
-                ClassId = classes[2].Id
-            },
-            new()
-            {
-                Id = 5,
-                Name = "Сергей",
-                SurName = "Сергеев",
-                MiddleName = "Сергеевич",
-                IsDeleted = false,
-                ClassId = classes[2].Id
+                var pupil = new Pupil()
+                {
+                    Id = pupilId,
+                    Name = Faker.Name.First(),
+                    SurName = Faker.Name.Last(),
+                    MiddleName = Faker.Name.Middle(),
+                    IsDeleted = false,
+                    ClassId = (uint)i
+                };
+                pupils.Add(pupil);
+                pupilId++;
             }
-        };
+        }
         modelBuilder.Entity<Pupil>().HasData(pupils);
-        
+
         var teachers = new List<Teacher>();
-        teachers.Add(new Teacher
-        {
-            Id = 1,
-            Name = "Иван",
-            SurName = "Иванов",
-            MiddleName = "Иванович",
-            Comment = "Комментарий крутой",
-        });
-        teachers.Add(new()
-        {
-            Id = 2,
-            Name = "Петр",
-            SurName = "Петров",
-            MiddleName = "Петрович",
-            Comment = "Комментарий не очень",
-        });
         
-        teachers.Add(new()
+        for (uint i = 1; i <= 1000; i++)
         {
-            Id = 3,
-            Name = "Сергей",
-            SurName = "Сергеев",
-            MiddleName = "Сергеевич",
-            Comment = "Комментарий просто есть",
-        });
-        
-        teachers.Add(new()
-        {
-            Id = 4,
-            Name = "Антон",
-            SurName = "Бурунов",
-            MiddleName = "Бахалович",
-            Comment = "Комментарий прикольный",
-        });
-        
-        teachers.Add(new Teacher
-        {
-            Id = 5,
-            Name = "Максим",
-            SurName = "Максимов",
-            MiddleName = "Максимович",
-            Comment = "Комментарий просто есть",
-        });
-        
-        teachers.Add(new()
-        {
-            Id = 6,
-            Name = "Александр",
-            SurName = "Александров",
-            MiddleName = "Александрович",
-            Comment = "Комментарий просто есть",
-        });
-        
-        teachers.Add(new Teacher
-        {
-            Id = 7,
-            Name = "Бушка",
-            SurName = "Пушка",
-            MiddleName = "Пушкович",
-            Comment = "Комментарий просто есть",
-        });
-        
-        teachers.Add(new Teacher()
-        {
-            Id = 8,
-            Name = "Дмитрий",
-            SurName = "Дмитриев",
-            MiddleName = "Дмитриевич",
-            Comment = "Комментарий просто есть",
-        });
-        
-        teachers.Add(new Teacher()
-        {
-            Id = 9,
-            Name = "Милана",
-            SurName = "Миланова",
-            MiddleName = "Милановна",
-            Comment = "Комментарий просто есть"
-        });
-        
-        teachers.Add(new Teacher()
-        {
-            Id = 10,
-            Name = "Евгений",
-            SurName = "Евгениев",
-            MiddleName = "Евгениевич",
-            Comment = "Комментарий просто есть"
-        });
+            teachers.Add(new Teacher
+            {
+                Id = i,
+                Name = Faker.Name.First(),
+                SurName = Faker.Name.Last(),
+                MiddleName = Faker.Name.Middle(),
+                Comment = Faker.Phone.Number(),
+            });
+        }
         modelBuilder.Entity<Teacher>().HasData(teachers);
     }
 }
