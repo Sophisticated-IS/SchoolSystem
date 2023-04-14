@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Backend.Persistence.DbContext;
 using Backend.WebApi;
 using Keycloak.AuthServices.Authentication;
@@ -33,9 +34,8 @@ services.AddAuthorization(options =>
         {
             options.AddPolicy("RequireWorkspaces", builder =>
             {
-                builder.RequireProtectedResource("workspaces", "workspaces:read")
-                       .RequireRealmRoles("r-SchoolAdmin")
-                       .RequireResourceRoles("SchoolAdmin");
+                builder
+                    .RequireResourceRoles("SchoolAdmin");
             });
         })
         .AddKeycloakAuthorization(configuration);
@@ -61,7 +61,13 @@ app.UseSwaggerUI();
 
 app.UseCors(ServiceInjectionExtensions.CurrentCorsPolicy);
 
-app.MapGet("/workspaces", () => "[]")
+app.MapGet("/workspaces", 
+    (ClaimsPrincipal user) =>
+    {
+        // TokenValidationParameters.NameClaimType is overriden based on keycloak specific claim
+        app.Logger.LogInformation("{@User}", user.Identity.Name);
+    })
+   
    .RequireAuthorization("RequireWorkspaces");
 
 app.Run();
