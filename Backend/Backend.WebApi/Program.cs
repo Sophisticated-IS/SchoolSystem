@@ -1,4 +1,3 @@
-using System.Security.Claims;
 using Backend.Persistence.DbContext;
 using Backend.WebApi;
 using Keycloak.AuthServices.Authentication;
@@ -60,14 +59,5 @@ app.UseSwaggerUI();
 
 
 app.UseCors(ServiceInjectionExtensions.CurrentCorsPolicy);
-
-app.MapGet("/workspaces", 
-    (ClaimsPrincipal user) =>
-    {
-        // TokenValidationParameters.NameClaimType is overriden based on keycloak specific claim
-        app.Logger.LogInformation("{@User}", user.Identity.Name);
-    })
-   
-   .RequireAuthorization("RequireWorkspaces");
 
 app.Run();
