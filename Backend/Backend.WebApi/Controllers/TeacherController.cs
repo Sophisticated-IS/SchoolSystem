@@ -3,6 +3,7 @@ using Backend.Application.ApiModels;
 using Backend.Application.Commands;
 using Backend.Application.Queries;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.WebApi.Controllers;
@@ -23,19 +24,25 @@ public class TeacherController : ControllerBase
         _mapper = mapper;
     }
 
-    
+    [Authorize(Roles = "SchoolAdmin")]
+    [Authorize(Roles = "Teacher")]
+    [Authorize(Roles = "Pupil")]
     [HttpGet]
     public async Task<IEnumerable<Application.ApiModels.TeacherWithId>> GetAllTeachers()
     {
         return await _mediator.Send(new GetAllTeachersQuery());
     }
     
+    [Authorize(Roles = "SchoolAdmin")]
+    [Authorize(Roles = "Teacher")]
+    [Authorize(Roles = "Pupil")]
     [HttpGet("{id}")]
     public async Task<TeacherWithId> GetTeacherById(uint id)
     {
         return await _mediator.Send(new GetTeacherByIdQuery(id));
     }
     
+    [Authorize(Roles = "SchoolAdmin")]
     [HttpPost]
     public async Task<TeacherWithId> CreateTeacher(Application.ApiModels.Teacher teacher)
     {
@@ -43,6 +50,7 @@ public class TeacherController : ControllerBase
         return await _mediator.Send(createTeacherCmd);
     }
 
+    [Authorize(Roles = "SchoolAdmin")]
     [HttpPut]
     public async Task<uint[]> UpdateTeacher(uint teacherId,uint[] classIds)  
     {
@@ -50,6 +58,7 @@ public class TeacherController : ControllerBase
         return await _mediator.Send(updateTeacherCmd);
     }
     
+    [Authorize(Roles = "SchoolAdmin")]
     [HttpDelete]
     public async Task DeleteTeacher(uint teacherId)
     {
