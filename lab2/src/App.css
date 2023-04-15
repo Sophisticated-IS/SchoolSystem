@@ -1,0 +1,172 @@
+.img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  height: 500px;
+  width: 500px;
+  margin-top: 30px;
+}
+
+body {
+  text-align: center;
+  padding-top: 90px;
+  padding-left: 60px;
+  padding-right: 40px;
+}
+
+.head {
+  text-align: center;
+}
+
+/* Заголовки */
+.headT,
+.headS,
+.headC {
+  float: left;
+  margin-bottom: 30px;
+}
+
+.headT {
+  width: 55%;
+}
+
+.headC {
+  width: 25%;
+  margin-bottom: 30px;
+}
+
+.headS {
+  width: 55%;
+}
+.head2C {
+  margin-left: 10%;
+  width: 45%;
+  float: left;
+  margin-bottom: 30px;
+  text-align: center;
+}
+.head2 {
+  width: 30%;
+  float: right;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+/* Таблицы */
+.delete {
+  width: 50px;
+}
+
+table {
+  background-color: #D3D3D3;
+  overflow-x: auto;
+}
+thead th {
+  text-align: center;
+}
+thead {
+  background-color:#202329;
+  color: white;
+  position: sticky;
+  top: 0;
+}
+
+tr,td{
+  text-align: center;
+}
+
+.scrollbarC {
+  position: relative;
+  width: 25%;
+  height: 550px;
+  overflow: auto;
+  float: left;
+}
+
+.scrollbarS {
+  position: relative;
+  width: 55%;
+  height: 550px;
+  overflow: auto;
+  float: left;
+  margin-top: 10px;
+}
+/* .serch{
+  width: 1000px;
+  margin-top: 130px;
+  margin-left: 100px;
+  float: left;
+} */
+.S{
+  width: 55%;
+}
+
+.scrollbarT {
+  position: relative;
+  width: 55%;
+  height: 550px;
+  overflow: auto;
+  float: left;
+  margin-top: 10px;
+}
+
+/* Блок добавления */
+.add,.addS {
+  background-color: #D3D3D3;
+  width: 30%;
+  float: right;
+  margin-left: 2%;
+}
+
+.add{
+  height: 380px;
+}
+.addS{
+  height: 305px;
+}
+.addC{
+  background-color: #D3D3D3;
+  width: 45%;
+  float: left;
+  margin-left: 10%;
+  height: 100px;
+}
+
+.addform {
+  padding: 10px;
+}
+.sub{
+  margin-left: 11px;
+}
+
+/* Авторизация */
+.auth{
+  background-color: #D3D3D3;
+  width: 450px;
+  height: 170px;
+  margin-top: 65px;
+  text-align: center;
+  padding-top: 25px;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 5%;
+}
+.img1 {
+  height: 150px;
+  width: 150px;
+}
+.lol{
+  margin-top: -25px;
+  position: relative;
+  text-align: center;
+}
+.bat{
+  margin-top: 15px;
+}
+.baton{
+  padding-top: 23px;
+}
+
+.main{
+  text-align: center;
+}
