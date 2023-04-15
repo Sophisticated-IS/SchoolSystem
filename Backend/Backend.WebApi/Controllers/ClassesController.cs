@@ -20,8 +20,8 @@ public class ClassesController : Controller
     [Authorize(Roles = "SchoolAdmin")]
     [Authorize(Roles = "Teacher")]
     [Authorize(Roles = "Pupil")]
-    [HttpGet(Name = "GetAllClasses")]
-    public async Task<IEnumerable<Application.ApiModels.Class>> GetClassById()
+    [HttpGet()]
+    public async Task<IEnumerable<Application.ApiModels.Class>> GetAllClasses()
     {
         return await _mediator.Send(new GetAllClassesQuery());
     }
@@ -30,7 +30,7 @@ public class ClassesController : Controller
     [Authorize(Roles = "Teacher")]
     [Authorize(Roles = "Pupil")]
     [HttpGet("{id}")]
-    public async Task<Class> GetClass(uint id)
+    public async Task<Class> GetClassById(uint id)
     {
         return await _mediator.Send(new GetClassByIdQuery(id));
     }

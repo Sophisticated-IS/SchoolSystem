@@ -34,7 +34,7 @@ public class PupilController : Controller
     [Authorize(Roles = "SchoolAdmin")]
     [Authorize(Roles = "Teacher")]
     [Authorize(Roles = "Pupil")]
-    [HttpGet]
+    [HttpGet("Filter")]
     public async Task<IEnumerable<Application.ApiModels.PupilWithId>> GetFilteredPupils(Application.ApiModels.Pupil pupil)
     {
         return await _mediator.Send(new GetFilteredPupilsQuery(pupil.Name,pupil.SurName,pupil.MiddleName));
