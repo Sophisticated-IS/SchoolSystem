@@ -1,6 +1,15 @@
-FROM node:latest
+FROM node:14-alpine
+
+ENV PATH /app/node_modules/.bin:$PATH
+
 WORKDIR /app
-COPY package.json ./
-RUN apt-get update && apt-get install -y npm
-COPY . .
+
+COPY /lab2/package.json ./
+
+COPY /lab2/package-lock.json ./
+
+RUN npm install
+
+COPY . ./
+
 CMD ["npm", "start"]

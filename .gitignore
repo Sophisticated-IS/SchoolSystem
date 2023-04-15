@@ -4,3 +4,4 @@ riderModule.iml
 /lab2/node_modules/*
 /lab2/node_modules
 ./node_modules/
+./Backend/Backend.Domain/obj
