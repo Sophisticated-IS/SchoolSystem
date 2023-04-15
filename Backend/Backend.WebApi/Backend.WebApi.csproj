@@ -17,14 +17,14 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Content Include="..\..\.dockerignore">
-        <Link>.dockerignore</Link>
-      </Content>
+      <ProjectReference Include="..\Backend.Application\Backend.Application.csproj" />
+      <ProjectReference Include="..\Backend.Persistence\Backend.Persistence.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Backend.Application\Backend.Application.csproj" />
-      <ProjectReference Include="..\Backend.Persistence\Backend.Persistence.csproj" />
+      <Content Include="..\..\.dockerignore">
+        <Link>.dockerignore</Link>
+      </Content>
     </ItemGroup>
 
 </Project>
