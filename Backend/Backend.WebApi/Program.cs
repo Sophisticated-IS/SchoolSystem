@@ -23,7 +23,6 @@ services.AddDataBaseConfig(configuration);
 
 var scope = services.BuildServiceProvider().CreateScope();
 var schoolContext = scope.ServiceProvider.GetRequiredService<SchoolContext>();
-schoolContext.Database.EnsureDeleted();
 schoolContext.Database.EnsureCreated();
 #region KeycloakAuth
 host.ConfigureKeycloakConfigurationSource();
