@@ -658,7 +658,9 @@
     "alwaysDisplayInConsole" : false,
     "clientAuthenticatorType" : "client-secret",
     "redirectUris" : [ "", "http://localhost:3000/*" ],
-    "webOrigins" : [ ],
+    "webOrigins": [
+      "+"
+    ],
     "notBefore" : 0,
     "bearerOnly" : false,
     "consentRequired" : false,
@@ -674,7 +676,8 @@
       "display.on.consent.screen" : "false",
       "oauth2.device.authorization.grant.enabled" : "false",
       "backchannel.logout.session.required" : "true",
-      "backchannel.logout.revoke.offline.tokens" : "false"
+      "backchannel.logout.revoke.offline.tokens" : "false",
+      "post.logout.redirect.uris": "http://localhost:3000/"
     },
     "authenticationFlowBindingOverrides" : { },
     "fullScopeAllowed" : true,
