@@ -1,0 +1,120 @@
+﻿@page "/pupils"
+@using Serilog
+@using НеверовАнализУязвимостейПО.Models.DataBase
+@inject DataBaseContext DBContext
+
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col">
+            <h2> Ученики </h2>
+            <table class="table table-striped">
+                <thead class="table-dark">
+                <tr>
+                    <th scope="col">
+                        ID
+                    </th>
+                    <th scope="col">
+                        ФИО
+                    </th>
+                    <th scope="col">
+                        Класс ID
+                    </th>
+                    <th scope="col">
+
+                    </th>
+                </tr>
+                </thead>
+
+                @foreach (var pupil in _pupilsList)
+                {
+                    <tbody>
+                    <tr>
+                        <td>
+                            @pupil.Id
+                        </td>
+                        <td>
+                            @pupil.FIO
+                        </td>
+                        <td>
+                            @pupil.ClassId
+                        </td>
+                        <td>
+                            <button class="btn btn-danger" @onclick="(() => DeletePupil(pupil))">
+                                Удалить
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                }
+
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col">
+        <input class="form-control" placeholder="Введите ФИО" @bind="_fio"/>
+    </div>
+    <div class="col">
+        <select class="form-select" @bind="_selectedClassId">
+            @foreach (var classItem in _classes)
+            {
+                <option value="@classItem.Id"> @classItem.Id</option>
+            }
+        </select>
+    </div>
+    <div class="col">
+        <button class="btn btn-success" @onclick="AddPupil">
+            Добавить ученика
+        </button>
+    </div>
+</div>
+
+
+@code
+{
+    private IList<Models.DataBase.Schema.Pupils> _pupilsList;
+    private IList<Models.DataBase.Schema.Classes> _classes;
+
+    protected override void OnInitialized()
+    {
+        _pupilsList = DBContext.Pupils.Where(p => !p.IsDeleted).ToList();
+        _classes = DBContext.Classes.ToList();
+    }
+
+    string _fio;
+    int _selectedClassId;
+
+    private void AddPupil()
+    {
+        if (string.IsNullOrEmpty(_fio) || _selectedClassId <= 0) return;
+
+        var pupil = new Models.DataBase.Schema.Pupils()
+        {
+            FIO = _fio,
+            ClassId = _selectedClassId
+        };
+        DBContext.Pupils.Add(pupil);
+        DBContext.SaveChanges();
+        _pupilsList.Add(pupil);
+        _fio = "";
+        
+        Log.Information("Был добавлен новый ученик {@pupil}", pupil);
+    }
+
+    private void DeletePupil(Models.DataBase.Schema.Pupils pupil)
+    {
+        pupil.IsDeleted = true;
+        DBContext.Pupils.Update(pupil);
+        DBContext.SaveChanges();
+        _pupilsList.Remove(pupil);
+        
+        Log.Information("Был удалён ученик {@pupil}", pupil);
+    }
+}
