@@ -40,6 +40,15 @@ public class PupilController : Controller
         return await _mediator.Send(new GetFilteredPupilsQuery(pupil.Name,pupil.SurName,pupil.MiddleName));
     }
     
+    [Authorize(Roles = "SchoolAdmin")]
+    [Authorize(Roles = "Teacher")]
+    [Authorize(Roles = "Pupil")]
+    [HttpGet("Pagination")]
+    public async Task<IEnumerable<Application.ApiModels.PupilWithId>> GetPaginationPupils(uint from,uint to)
+    {
+        return await _mediator.Send(new GetPupilPaginationQuery(from,to));
+    }
+    
     
     [Authorize(Roles = "SchoolAdmin")]
     [Authorize(Roles = "Teacher")]
