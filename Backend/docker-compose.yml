@@ -22,7 +22,7 @@ services:
   keycloak:
     build:
       context: .
-      dockerfile: ./Backend/KeyCloak/DockerFile_KeyCloak
+      dockerfile: ./KeyCloak/DockerFile
       
 #    volumes:
 #      - ./Backend/KeyCloak/realmImports:/opt/keycloak/data/import

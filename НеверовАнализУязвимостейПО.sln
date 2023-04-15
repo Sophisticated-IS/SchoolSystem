@@ -1,10 +1,10 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "НеверовАнализУязвимостей ПО", "НеверовАнализУязвимостей ПО\НеверовАнализУязвимостей ПО.csproj", "{C5C35A30-41D1-4281-BC49-085288203C26}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "НеверовАнализУязвимостейПО", "НеверовАнализУязвимостейПО\НеверовАнализУязвимостейПО.csproj", "{C5C35A30-41D1-4281-BC49-085288203C26}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Backend", "Backend", "{71BB615E-E611-4311-8EAD-1220BFF9326B}"
 	ProjectSection(SolutionItems) = preProject
-		Backend\KeyCloak\DockerFile_KeyCloak = Backend\KeyCloak\DockerFile_KeyCloak
+		Backend\KeyCloak\DockerFile = Backend\KeyCloak\DockerFile
 		Backend\KeyCloak\realmImports\schoolRealm-realm.json = Backend\KeyCloak\realmImports\schoolRealm-realm.json
 	EndProjectSection
 EndProject
