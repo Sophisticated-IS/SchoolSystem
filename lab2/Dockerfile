@@ -1,6 +1,6 @@
 # docker build -t Front:end
 # docker run -it -p 3000:3000 Front:end
-FROM node:13.12.0-alpine
+FROM node:18.16.0
 WORKDIR /app
 ENV PATH /app/node_modules/.bin:$PATH
 COPY package.json ./

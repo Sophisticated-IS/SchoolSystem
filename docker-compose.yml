@@ -67,10 +67,10 @@ services:
     depends_on:
       - postgres
       - keycloak
-  schoolfrontend:
-    build:
-      context: .
-      dockerfile: ./lab2/Dockerfile
-    ports:
-      - "3000:3000" 
-    restart: unless-stopped
+#  schoolfrontend:
+#    build:
+#      context: .
+#      dockerfile: ./lab2/Dockerfile
+#    ports:
+#      - "3000:3000" 
+#    restart: unless-stopped
