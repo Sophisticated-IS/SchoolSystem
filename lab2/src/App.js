@@ -8,6 +8,7 @@ import useAuth from './hooks/useAuth';
 function App() {
 
   const [isLogin, token] = useAuth();
+
   return isLogin ? <Protected token={token} />: <Public/>;
   // return (
   //   <div className='lol'>

@@ -4,16 +4,19 @@ import Header from "./Header";
 const Protected = ({ token }) => {
   const isRun = useRef(false);
 
- // const [data, setData] = useState(null);
+  window.ttoken = {
+    tok: token
+  };
+  // const [data, setData] = useState(null);
 
   useEffect(() => {
     if (isRun.current) return;
 
     isRun.current = true;
 
-    window.ttoken = {
-        tok: token
-    };
+    // window.ttoken = {
+    //     tok: token
+    // };
     // const config = {
     //   headers: {
     //     authorization: `Bearer ${token}`,
@@ -26,7 +29,7 @@ const Protected = ({ token }) => {
     //   .catch((err) => console.error(err));
   }, []);
 
-  return <Header/>;
+  return <Header />;
 };
 
 export default Protected;
