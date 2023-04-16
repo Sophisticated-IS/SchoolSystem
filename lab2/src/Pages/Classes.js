@@ -14,7 +14,7 @@ export default class Classes extends Component {
   handleSubmit(event) {
     let idStudent = document.getElementById('idStudent').value;
     let idClass = document.getElementById('idClass').value;
-    if (idClass != "" && idStudent != "") {
+    if (idClass !== "" && idStudent !== "") {
       fetch("http://localhost/api/Pupil?pupilId=" + idStudent + "&classId=" + idClass, {
         method: "PUT",
         headers:
@@ -23,7 +23,7 @@ export default class Classes extends Component {
         },
       })
         .then(response => {
-          if (confirm("Ученик - " + idStudent + " добавлен в класс " + idClass + "\nХотите посмотреть список учеников?"))
+          if (window.confirm("Ученик - " + idStudent + " добавлен в класс " + idClass + "\nХотите посмотреть список учеников?"))
             window.location.assign('http://localhost:3000/students');
         })
         .catch(error => console.log(error));

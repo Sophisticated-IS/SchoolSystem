@@ -19,11 +19,11 @@ export default class Teachers extends Component {
   handleClick(event) {
     document.querySelector('table').onclick = (event) => {
       let cell = event.target;
-      if (cell.tagName.toLowerCase() != 'td' || cell.cellIndex != 5)
+      if (cell.tagName.toLowerCase() !== 'td' || cell.cellIndex !== 5)
         return;
       let i = cell.parentNode.rowIndex;
       let id = document.getElementById('TabTeacher').rows[i].cells[0].textContent;
-      if (confirm("Вы хотите удалить учителя - " + id + "?")) {
+      if (window.confirm("Вы хотите удалить учителя - " + id + "?")) {
         fetch('http://localhost/api/Teacher?teacherId=' + id, {
           method: 'DELETE',
           headers:
@@ -32,7 +32,7 @@ export default class Teachers extends Component {
           },
         })
           .then(response => console.log(response))
-        location.reload();
+        window.location.reload();
       }
       else {
         console.log("Отмена удаления")
@@ -48,7 +48,7 @@ export default class Teachers extends Component {
       middleName: document.getElementById('patronymic').value,
       comment: document.getElementById('comment').value
     };
-    if (teacher.surName != "" && teacher.name != "" && teacher.middleName != "" && teacher.comment != "") {
+    if (teacher.surName !== "" && teacher.name !== "" && teacher.middleName !== "" && teacher.comment !== "") {
       alert("Новый учитель добавлен");
       console.log(JSON.stringify(teacher));
       fetch('http://localhost:80/api/Teacher', {

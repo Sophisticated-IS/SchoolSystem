@@ -32,12 +32,12 @@ export default class Students extends Component {
   handleClick(event) {
     document.querySelector("table").onclick = (event) => {
       let cell = event.target;
-      if (cell.tagName.toLowerCase() == "td") {
+      if (cell.tagName.toLowerCase() === "td") {
         let i = cell.parentNode.rowIndex;
         let id = document.getElementById("TabStudent").rows[i].cells[0].textContent;
         switch (cell.cellIndex) {
           case 5:
-            if (confirm("Вы хотите удалить ученика - " + id + "?")) {
+            if (window.confirm("Вы хотите удалить ученика - " + id + "?")) {
               fetch("http://localhost/api/Pupil?pupilId=" + id, {
                 method: "DELETE",
                 headers:
@@ -47,7 +47,7 @@ export default class Students extends Component {
                 
               });
               // .then(response => console.log(response))
-              location.reload();
+              window.location.reload();
             }
             break;
           case 4:
@@ -61,7 +61,7 @@ export default class Students extends Component {
               .then((response) => response.json())
               .then((data) => document.getElementById("TabStudent").rows[i].cells[4].textContent = data.number + data.letter)
               .catch((error) => {
-                if (confirm("У ученика - " + id + " нет класса.\nХотите добавить его в класс? "))
+                if (window.confirm("У ученика - " + id + " нет класса.\nХотите добавить его в класс? "))
                   window.location.assign('http://localhost:3000/classes');
               });
             break;
@@ -80,7 +80,7 @@ export default class Students extends Component {
       surName: document.getElementById("family").value,
       middleName: document.getElementById("patronymic").value
     };
-    if (student.surName != "" && student.name != "" && student.middleName != "") {
+    if (student.surName !== "" && student.name !== "" && student.middleName !== "") {
       alert("Новый ученик добавлен");
       console.log(JSON.stringify(student));
       fetch("http://localhost:80/api/Pupil",
