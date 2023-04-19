@@ -49,7 +49,7 @@ internal static class ServiceInjectionExtensions
             options.AddPolicy(name: CurrentCorsPolicy,  
                 policy  =>  
                 {  
-                    policy.WithOrigins("http://localhost:3000")
+                    policy.AllowAnyOrigin()
                           .AllowAnyMethod()
                           .AllowAnyHeader();
                     policy.SetIsOriginAllowed(s => true);

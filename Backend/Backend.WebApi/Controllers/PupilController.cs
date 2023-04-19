@@ -22,27 +22,27 @@ public class PupilController : Controller
         _mapper = mapper;
     }
     
-    [Authorize(Roles = "SchoolAdmin")]
-    [Authorize(Roles = "Teacher")]
-    [Authorize(Roles = "Pupil")]
+    // [Authorize(Roles = "SchoolAdmin")]
+    // [Authorize(Roles = "Teacher")]
+    // [Authorize(Roles = "Pupil")]
     [HttpGet]
     public async Task<IEnumerable<Application.ApiModels.PupilWithId>> GetAllPupils()
     {
         return await _mediator.Send(new GetAllPupilsQuery());
     }
     
-    [Authorize(Roles = "SchoolAdmin")]
-    [Authorize(Roles = "Teacher")]
-    [Authorize(Roles = "Pupil")]
+    // [Authorize(Roles = "SchoolAdmin")]
+    // [Authorize(Roles = "Teacher")]
+    // [Authorize(Roles = "Pupil")]
     [HttpGet("Filter")]
     public async Task<IEnumerable<Application.ApiModels.PupilWithId>> GetFilteredPupils(Application.ApiModels.Pupil pupil)
     {
         return await _mediator.Send(new GetFilteredPupilsQuery(pupil.Name,pupil.SurName,pupil.MiddleName));
     }
     
-    [Authorize(Roles = "SchoolAdmin")]
-    [Authorize(Roles = "Teacher")]
-    [Authorize(Roles = "Pupil")]
+    // [Authorize(Roles = "SchoolAdmin")]
+    // [Authorize(Roles = "Teacher")]
+    // [Authorize(Roles = "Pupil")]
     [HttpGet("Pagination")]
     public async Task<IEnumerable<Application.ApiModels.PupilWithId>> GetPaginationPupils(uint from,uint to)
     {
@@ -50,17 +50,17 @@ public class PupilController : Controller
     }
     
     
-    [Authorize(Roles = "SchoolAdmin")]
-    [Authorize(Roles = "Teacher")]
-    [Authorize(Roles = "Pupil")]
+    // [Authorize(Roles = "SchoolAdmin")]
+    // [Authorize(Roles = "Teacher")]
+    // [Authorize(Roles = "Pupil")]
     [HttpGet("{id}/Class")]
     public async Task<Class> GetPupilClass(uint id)
     {
         return await _mediator.Send(new GetPupilClassByIdQuery(id));
     }
 
-    [Authorize(Roles = "SchoolAdmin")]
-    [Authorize(Roles = "Teacher")]
+    // [Authorize(Roles = "SchoolAdmin")]
+    // [Authorize(Roles = "Teacher")]
     [HttpPut]
     public async Task UpdatePupilClass(uint pupilId,uint classId)  
     {
@@ -68,8 +68,8 @@ public class PupilController : Controller
         await _mediator.Send(command);
     }
     
-    [Authorize(Roles = "SchoolAdmin")]
-    [Authorize(Roles = "Teacher")]
+    // [Authorize(Roles = "SchoolAdmin")]
+    // [Authorize(Roles = "Teacher")]
     [HttpPost]
     public async Task<Application.ApiModels.PupilWithId> CreatePupil(Application.ApiModels.Pupil pupil)
     {
@@ -77,7 +77,7 @@ public class PupilController : Controller
         return await _mediator.Send(pupilCommand);
     }
     
-    [Authorize(Roles = "SchoolAdmin")]
+    // [Authorize(Roles = "SchoolAdmin")]
     [HttpDelete]
     public async Task DeletePupil(uint pupilId)
     {

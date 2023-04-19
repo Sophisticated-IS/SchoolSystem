@@ -25,18 +25,10 @@ var scope = services.BuildServiceProvider().CreateScope();
 var schoolContext = scope.ServiceProvider.GetRequiredService<SchoolContext>();
 schoolContext.Database.EnsureCreated();
 #region KeycloakAuth
-host.ConfigureKeycloakConfigurationSource();
-services.AddKeycloakAuthentication(configuration);
-
-services.AddAuthorization(options =>
-        {
-            options.AddPolicy("RequireWorkspaces", builder =>
-            {
-                builder
-                    .RequireResourceRoles("SchoolAdmin");
-            });
-        })
-        .AddKeycloakAuthorization(configuration);
+// host.ConfigureKeycloakConfigurationSource();
+// services.AddKeycloakAuthentication(configuration);
+//
+// services.AddAuthorization().AddKeycloakAuthorization(configuration);
 
 #endregion
 
@@ -48,8 +40,8 @@ var app = builder.Build();
 app.MapControllers();
 
 
-app.UseAuthentication()
-   .UseAuthorization();
+// app.UseAuthentication();
+//    .UseAuthorization();
 
 // // Configure the HTTP request pipeline.
 app.UseSwagger();
