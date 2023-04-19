@@ -3,7 +3,7 @@ import React, { Component } from "react";
 var UpdateTable = true;
 
 export default class Students extends Component {
-  
+
   constructor(props) {
     super(props);
     this.state = {
@@ -17,7 +17,7 @@ export default class Students extends Component {
   // CHECK
   handleSearch(event) {
     let search = document.getElementById("Sfiltr").value;
-    fetch("http://localhost:80/api/pupil/" + search,{
+    fetch("http://localhost:80/api/pupil/" + search, {
       method: "GET",
       headers:
       {
@@ -44,14 +44,14 @@ export default class Students extends Component {
                 {
                   "authorization": `Bearer ${window.ttoken.tok}`,
                 },
-                
+
               });
               // .then(response => console.log(response))
               window.location.reload();
             }
             break;
           case 4:
-            fetch("http://localhost/api/Pupil/" + id + "/Class",{
+            fetch("http://localhost/api/Pupil/" + id + "/Class", {
               method: "GET",
               headers:
               {
@@ -102,20 +102,6 @@ export default class Students extends Component {
   }
 
   fillingtable(data) {
-    <div className="scrollbarS">
-      <table id="TabStudent" className="table table-bordered">
-        <thead>
-          <tr>
-            <th className="delete" scope="col">ID</th>
-            <th scope="col">Фамилия</th>
-            <th scope="col">Имя</th>
-            <th scope="col">Отчество</th>
-            <th className="delete" scope="col">Класс</th>
-            <th className="delete" scope="col">Удалить</th>
-          </tr>
-        </thead>
-      </table>
-    </div>
     let table = document.querySelector("#TabStudent");
     //console.log(data);
     let mySet = new Set(["id", "surName", "name", "middleName"]);
@@ -142,7 +128,7 @@ export default class Students extends Component {
 
   getStudent() {
     if (UpdateTable) {
-      fetch("http://localhost:80/api/pupil",{
+      fetch("http://localhost:80/api/pupil", {
         method: "GET",
         headers:
         {
@@ -204,6 +190,20 @@ export default class Students extends Component {
             </div>
           </div>
         </form>
+        <div className="scrollbarS">
+          <table id="TabStudent" className="table table-bordered">
+            <thead>
+              <tr>
+                <th className="delete" scope="col">ID</th>
+                <th scope="col">Фамилия</th>
+                <th scope="col">Имя</th>
+                <th scope="col">Отчество</th>
+                <th className="delete" scope="col">Класс</th>
+                <th className="delete" scope="col">Удалить</th>
+              </tr>
+            </thead>
+          </table>
+        </div>
         {this.getStudent()}
 
       </div>

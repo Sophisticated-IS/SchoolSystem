@@ -160,7 +160,7 @@ export default class Teachers extends Component {
                 <th scope="col">Фамилия</th>
                 <th scope="col">Имя</th>
                 <th scope="col">Отчество</th>
-                <th scope="col">Комментарий</th>
+                <th scope="col">Телефон</th>
                 <th className="delete" scope="col">Удалить</th>
               </tr>
             </thead>
