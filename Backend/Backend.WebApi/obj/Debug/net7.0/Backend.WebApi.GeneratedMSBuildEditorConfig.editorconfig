@@ -1,4 +1,5 @@
 is_global = true
+build_property.RefitInternalNamespace = Backend.WebApi
 build_property.TargetFramework = net7.0
 build_property.TargetPlatformMinVersion = 
 build_property.UsingMicrosoftNETSdkWeb = true
@@ -9,9 +10,9 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Backend.WebApi
 build_property.RootNamespace = Backend.WebApi
-build_property.ProjectDir = d:\LSD\LSD++\5 курс\(АУПО) Анализ уязвимостей ПО\BackFront\SchoolSystem\Backend\Backend.WebApi\
+build_property.ProjectDir = D:\LSD\LSD++\5 курс\(АУПО) Анализ уязвимостей ПО\BackFront\SchoolSystem\Backend\Backend.WebApi\
 build_property.RazorLangVersion = 7.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = d:\LSD\LSD++\5 курс\(АУПО) Анализ уязвимостей ПО\BackFront\SchoolSystem\Backend\Backend.WebApi
+build_property.MSBuildProjectDirectory = D:\LSD\LSD++\5 курс\(АУПО) Анализ уязвимостей ПО\BackFront\SchoolSystem\Backend\Backend.WebApi
 build_property._RazorSourceGeneratorDebug = 

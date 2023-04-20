@@ -14,6 +14,24 @@ export default class Teachers extends Component {
     }
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
+  }
+
+  // CHECK
+  handleSearch(event) {
+    let search = document.getElementById("Sfiltr").value;
+    fetch("http://localhost:80/api/Teacher/Filter/"+search, {
+      method: "GET",
+      headers:
+      {
+        "authorization": `Bearer ${window.ttoken.tok}`,
+      }
+    })
+      .then((response) => console.log(response.json()))
+      // .then((response) => response.json())
+      // .then((data) => this.fillingtable(data))
+      .catch((error) => console.log(error));
+    event.preventDefault();
   }
 
   handleClick(event) {
@@ -115,9 +133,36 @@ export default class Teachers extends Component {
   render() {
     return (
       <div>
-        <h1 className="headT" align="center">Список учителей</h1>
-        <h1 className="head2" align="center">Добавить учителя</h1>
-        <div className='add'>
+        <div className="mainblock">
+          <h1 className="head" align="center">Список учителей</h1>
+          <form className='form-inline' onSubmit={this.handleSearch}>
+            <div className="row">
+              <div className="col">
+                <input className="form-control" type='text' id='Sfiltr' />
+              </div>
+              <div className="col-3">
+                <input type="submit" className="btn btn-dark" value="    Поиск    " />
+              </div>
+            </div>
+          </form>
+          <div className="scrollbar">
+            <table id="TabTeacher" className="table table-bordered">
+              <thead>
+                <tr>
+                  <th className="delete" scope="col">ID</th>
+                  <th scope="col">Фамилия</th>
+                  <th scope="col">Имя</th>
+                  <th scope="col">Отчество</th>
+                  <th scope="col">Телефон</th>
+                  <th className="delete" scope="col">Удалить</th>
+                </tr>
+              </thead>
+            </table>
+          </div>
+          {this.getTeacher()}
+        </div>
+        <div className="blockadd">
+          <h1 className="head" align="center">Добавить учителя</h1>
           <form className='addform' onSubmit={this.handleSubmit}>
             <div className="row gy-3">
               <div className="col-14">
@@ -142,31 +187,6 @@ export default class Teachers extends Component {
             </div>
           </form>
         </div>
-        <form className='search form-inline'>
-          <div className="row S">
-            <div className="col-10">
-              <input className="form-control" type='text' id='Sfiltr' />
-            </div>
-            <div className="col">
-              <input type="submit" className="btn btn-dark" value="    Поиск    " />
-            </div>
-          </div>
-        </form>
-        <div className="scrollbarT">
-          <table id="TabTeacher" className="table table-bordered">
-            <thead>
-              <tr>
-                <th className="delete" scope="col">ID</th>
-                <th scope="col">Фамилия</th>
-                <th scope="col">Имя</th>
-                <th scope="col">Отчество</th>
-                <th scope="col">Телефон</th>
-                <th className="delete" scope="col">Удалить</th>
-              </tr>
-            </thead>
-          </table>
-        </div>
-        {this.getTeacher()}
       </div>
     )
   }

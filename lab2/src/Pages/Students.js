@@ -17,16 +17,18 @@ export default class Students extends Component {
   // CHECK
   handleSearch(event) {
     let search = document.getElementById("Sfiltr").value;
-    fetch("http://localhost:80/api/pupil/" + search, {
+    fetch("http://localhost:80/api/pupil/Filter/"+search, {
       method: "GET",
       headers:
       {
         "authorization": `Bearer ${window.ttoken.tok}`,
-      },
+      }
     })
-      .then((response) => response.json())
-      .then((data) => this.fillingtable(data))
+      .then((response) => console.log(response.json()))
+      // .then((response) => response.json())
+      // .then((data) => this.fillingtable(data))
       .catch((error) => console.log(error));
+    event.preventDefault();
   }
 
   handleClick(event) {
@@ -145,13 +147,36 @@ export default class Students extends Component {
   render() {
     return (
       <div>
-        <h1 className="headS" align="center">
-          Список учеников
-        </h1>
-        <h1 className="head2" align="center">
-          Добавить ученика
-        </h1>
-        <div className="addS">
+        <div className="mainblock">
+          <h1 className="head" align="center">Список учеников</h1>
+          <form className='form-inline' onSubmit={this.handleSearch}>
+            <div className="row">
+              <div className="col">
+                <input className="form-control" type='text' id='Sfiltr' />
+              </div>
+              <div className="col-3">
+                <input type="submit" className="btn btn-dark" value="    Поиск    " />
+              </div>
+            </div>
+          </form>
+          <div className="scrollbar">
+            <table id="TabStudent" className="table table-bordered">
+              <thead>
+                <tr>
+                  <th className="delete" scope="col">ID</th>
+                  <th scope="col">Фамилия</th>
+                  <th scope="col">Имя</th>
+                  <th scope="col">Отчество</th>
+                  <th className="delete" scope="col">Класс</th>
+                  <th className="delete" scope="col">Удалить</th>
+                </tr>
+              </thead>
+            </table>
+          </div>
+          {this.getStudent()}
+        </div>
+        <div className="blockadd">
+          <h1 className="head" align="center">Добавить ученика</h1>
           <form className="addform" onSubmit={this.handleSubmit}>
             <div className="row gy-3">
               <div className="col-14">
@@ -180,32 +205,6 @@ export default class Students extends Component {
             </div>
           </form>
         </div>
-        <form className='search form-inline' onSubmit={this.handleSearch}>
-          <div className="row S">
-            <div className="col-10">
-              <input className="form-control" type='text' id='Sfiltr' />
-            </div>
-            <div className="col">
-              <input type="submit" className="btn btn-dark" value="    Поиск    " />
-            </div>
-          </div>
-        </form>
-        <div className="scrollbarS">
-          <table id="TabStudent" className="table table-bordered">
-            <thead>
-              <tr>
-                <th className="delete" scope="col">ID</th>
-                <th scope="col">Фамилия</th>
-                <th scope="col">Имя</th>
-                <th scope="col">Отчество</th>
-                <th className="delete" scope="col">Класс</th>
-                <th className="delete" scope="col">Удалить</th>
-              </tr>
-            </thead>
-          </table>
-        </div>
-        {this.getStudent()}
-
       </div>
     );
   }

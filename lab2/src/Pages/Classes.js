@@ -69,36 +69,38 @@ export default class Classes extends Component {
   render() {
     return (
       <div>
-        <h1 className="headC" align="center">Список классов</h1>
-        <h1 className="head2C" align="center">Добавить ученика в класс</h1>
-        <div className="scrollbarC">
-          <table id="TabClasses" className="table table-bordered">
-            <thead>
-              <tr>
-                <th className="delete" scope="col">ID</th>
-                <th scope="col">Параллель</th>
-                <th scope="col">Буква</th>
-              </tr>
-            </thead>
-          </table>
+        <div className='mainblockClass'>
+          <h1 className="head" align="center">Список классов</h1>
+          <div className="scrollbar">
+            <table id="TabClasses" className="table table-bordered">
+              <thead>
+                <tr>
+                  <th className="delete" scope="col">ID</th>
+                  <th scope="col">Параллель</th>
+                  <th scope="col">Буква</th>
+                </tr>
+              </thead>
+            </table>
+          </div>
+          {this.getClass()}
         </div>
-        {this.getClass()}
-        <div className='addC'>
-          <form className='addform form-inline' onSubmit={this.handleSubmit}>
-            <div className="row">
-              <div className="col-6">
-                <label>id Ученика</label>
-                <input className="form-control" type='number' id='idStudent' />
+        <div className='blockaddClass'>
+          <h1 className="head" align="center">Добавить ученика в класс</h1>
+            <form className='form-inline addform' onSubmit={this.handleSubmit}>
+              <div className="row">
+                <div className="col-6">
+                  <label>id Ученика</label>
+                  <input className="form-control" type='number' id='idStudent' />
+                </div>
+                <div className="col-3">
+                  <label>id Класса</label>
+                  <input className="form-control" type='number' id='idClass' />
+                </div>
+                <div className="baton col">
+                  <input type="submit" className="btn btn-dark" value="Добавить" />
+                </div>
               </div>
-              <div className="col-3">
-                <label>id Класса</label>
-                <input className="form-control" type='number' id='idClass' />
-              </div>
-              <div className="baton col">
-                <input type="submit" className="btn btn-dark" value="Добавить" />
-              </div>
-            </div>
-          </form>
+            </form>
         </div>
       </div>
     )
