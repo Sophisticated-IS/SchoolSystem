@@ -17,7 +17,7 @@ export default class Teachers extends Component {
   }
 
   handleScroll(event) {
-    let heiscrol = page * 320 + 320 * (page-1)*1.4
+    let heiscrol = page * 320 + 320 * (page - 1) * 1.4
     if (event.target.scrollTop > heiscrol) {
       UpdateTable = true;
       this.getTeacher();
@@ -27,16 +27,19 @@ export default class Teachers extends Component {
   // CHECK
   handleSearch(event) {
     let search = document.getElementById("Sfiltr").value;
-    fetch("http://localhost:80/api/Teacher/Filter/" + search, {
+    const allTd = document.getElementsByTagName("tr");
+    for (let i = 1; i < allTd.length; i += 1) {
+      allTd[i].innerHTML = '';
+    }
+    fetch("http://localhost/api/Teacher/Filter?Name=" + search + "&SurName=" + search + "&MiddleName=" + search + "&Comment=" + search, {
       method: "GET",
       headers:
       {
         "authorization": `Bearer ${window.ttoken.tok}`,
       }
     })
-      .then((response) => console.log(response.json()))
-      // .then((response) => response.json())
-      // .then((data) => this.fillingtable(data))
+      .then((response) => response.json())
+      .then((data) => this.fillingtable(data))
       .catch((error) => console.log(error));
     event.preventDefault();
   }
@@ -44,7 +47,7 @@ export default class Teachers extends Component {
   handleClick(event) {
     document.querySelector('table').onclick = (event) => {
       let cell = event.target;
-      if (cell.tagName.toLowerCase() !== 'td' || cell.cellIndex !== 5)
+      if (cell.tagName.toLowerCase() !== 'img')
         return;
       let i = cell.parentNode.rowIndex;
       let id = document.getElementById('TabTeacher').rows[i].cells[0].textContent;
@@ -57,10 +60,6 @@ export default class Teachers extends Component {
           },
         })
           .then(response => { console.log(response); window.location.reload(); })
-          .catch((error) => alert("Вы не можете удалить запись, обратитесь к администратору"))
-      }
-      else {
-        console.log("Отмена удаления")
       }
 
     }
@@ -83,10 +82,7 @@ export default class Teachers extends Component {
         },
         body: JSON.stringify(teacher)
       })
-        .then((response) => alert("Новый учитель добавлен"))
-        .catch((error) => alert("Вы не можете добавлять, обратитесь к учителю или администратору"));
-      // .then(response => console.log(response))
-      // event.preventDefault();
+        .then((response) => alert("Новый учитель добавлен"));
     }
     else {
       alert("Заполните все поля");
@@ -106,18 +102,18 @@ export default class Teachers extends Component {
       for (let item of mySet) {
         let td = document.createElement('td');
         td.textContent = data[i][item];
+        td.addEventListener('onClick', this.handleClick())
         tr.appendChild(td);
       }
-      // let img1 = document.createElement('img');
-      // img1.width = 20;
-      // img1.height = 20;
-      // img1.src = "delete1.png";
-      // img1.addEventListener('onClick', this.handleClick())
-      // tr.appendChild(img1);
-      let td = document.createElement('td');
-      td.textContent = "X";
-      td.addEventListener('onClick', this.handleClick())
-      tr.appendChild(td);
+
+      if (window.ttoken.role == "SchoolAdmin") {
+        let img1 = document.createElement('img');
+        img1.width = 20;
+        img1.height = 20;
+        img1.src = "delete1.png";
+        img1.addEventListener('onClick', this.handleClick())
+        tr.appendChild(img1);
+      }
       i++;
     }
   }
@@ -164,39 +160,40 @@ export default class Teachers extends Component {
                   <th scope="col">Имя</th>
                   <th scope="col">Отчество</th>
                   <th scope="col">Телефон</th>
-                  <th className="delete" scope="col">Удалить</th>
+                  {window.ttoken.role == "SchoolAdmin" && <th className="delete" scope="col">Удалить</th>}
                 </tr>
               </thead>
             </table>
           </div>
           {this.getTeacher()}
         </div>
-        <div className="blockadd">
-          <h1 className="head" align="center">Добавить учителя</h1>
-          <form className='addform' onSubmit={this.handleSubmit}>
-            <div className="row gy-3">
-              <div className="col-14">
-                <label>Фамилия</label>
-                <input className="form-control" type='text' id='family' />
+        {window.ttoken.role == "SchoolAdmin" &&
+          <div className="blockadd">
+            <h1 className="head" align="center">Добавить учителя</h1>
+            <form className='addform' onSubmit={this.handleSubmit}>
+              <div className="row gy-3">
+                <div className="col-14">
+                  <label>Фамилия</label>
+                  <input className="form-control" type='text' id='family' />
+                </div>
+                <div className="col-14">
+                  <label>Имя</label>
+                  <input className="form-control" type='text' id='name' />
+                </div>
+                <div className="col-14">
+                  <label>Отчество</label>
+                  <input className="form-control" type='text' id='patronymic' />
+                </div>
+                <div className="col-14">
+                  <label>Комментарий</label>
+                  <input className="form-control" type='text' id='comment' />
+                </div>
+                <div className='row gy-2'>
+                  <input type="submit" className="sub btn btn-dark btn-lg" value="Добавить" />
+                </div>
               </div>
-              <div className="col-14">
-                <label>Имя</label>
-                <input className="form-control" type='text' id='name' />
-              </div>
-              <div className="col-14">
-                <label>Отчество</label>
-                <input className="form-control" type='text' id='patronymic' />
-              </div>
-              <div className="col-14">
-                <label>Комментарий</label>
-                <input className="form-control" type='text' id='comment' />
-              </div>
-              <div className='row gy-2'>
-                <input type="submit" className="sub btn btn-dark btn-lg" value="Добавить" />
-              </div>
-            </div>
-          </form>
-        </div>
+            </form>
+          </div>}
       </div>
     )
   }

@@ -18,7 +18,7 @@ export default class Students extends Component {
   }
 
   handleScroll(event) {
-    let heiscrol = page * 320 + 320 * (page-1)*1.4
+    let heiscrol = page * 320 + 320 * (page - 1) * 1.4
     if (event.target.scrollTop > heiscrol) {
       console.log(event.target.scrollTop);
       UpdateTable = true;
@@ -26,19 +26,22 @@ export default class Students extends Component {
     }
   }
 
-  // CHECK
   handleSearch(event) {
     let search = document.getElementById("Sfiltr").value;
-    fetch("http://localhost:80/api/pupil/Filter/"+search, {
+    const allTd = document.getElementsByTagName("tr");
+    for (let i = 1; i < allTd.length; i += 1) {
+      allTd[i].innerHTML = '';
+    }
+
+    fetch("http://localhost/api/Pupil/Filter?Name=" + search + "&SurName=" + search + "&MiddleName=" + search, {
       method: "GET",
       headers:
       {
         "authorization": `Bearer ${window.ttoken.tok}`,
       }
     })
-      .then((response) => console.log(response.json()))
-      // .then((response) => response.json())
-      // .then((data) => this.fillingtable(data))
+      .then((response) => response.json())
+      .then((data) => this.fillingtable(data))
       .catch((error) => console.log(error));
     event.preventDefault();
   }
@@ -46,44 +49,38 @@ export default class Students extends Component {
   handleClick(event) {
     document.querySelector("table").onclick = (event) => {
       let cell = event.target;
-      if (cell.tagName.toLowerCase() === "td") {
-        let i = cell.parentNode.rowIndex;
-        let id = document.getElementById("TabStudent").rows[i].cells[0].textContent;
-        switch (cell.cellIndex) {
-          case 5:
-            if (window.confirm("Вы хотите удалить ученика - " + id + "?")) {
-              fetch("http://localhost/api/Pupil?pupilId=" + id, {
-                method: "DELETE",
-                headers:
-                {
-                  "authorization": `Bearer ${window.ttoken.tok}`,
-                },
+      let i = cell.parentNode.rowIndex;
+      let id = document.getElementById("TabStudent").rows[i].cells[0].textContent;
+      if (cell.tagName.toLowerCase() === "td" && cell.cellIndex === 4) {
+        fetch("http://localhost/api/Pupil/" + id + "/Class", {
+          method: "GET",
+          headers:
+          {
+            "authorization": `Bearer ${window.ttoken.tok}`,
+          },
+        })
+          .then((response) => response.json())
+          .then((data) => document.getElementById("TabStudent").rows[i].cells[4].textContent = data.number + data.letter)
+          .catch((error) => {
+            if (window.confirm("У ученика - " + id + " нет класса.\nХотите добавить его в класс? "))
+              window.location.assign('http://localhost:3000/classes');
+          });
+      }
+      else if (cell.tagName.toLowerCase() === "img") {
+        if (window.confirm("Вы хотите удалить ученика - " + id + "?")) {
+          fetch("http://localhost/api/Pupil?pupilId=" + id, {
+            method: "DELETE",
+            headers:
+            {
+              "authorization": `Bearer ${window.ttoken.tok}`,
+            },
 
-              })
-                .then((response) => {alert("Ученик удален"); window.location.reload()})
-                .catch((error) => alert("Вы не можете удалять, обратитесь к администратору"));
-            }
-            break;
-          case 4:
-            fetch("http://localhost/api/Pupil/" + id + "/Class", {
-              method: "GET",
-              headers:
-              {
-                "authorization": `Bearer ${window.ttoken.tok}`,
-              },
-            })
-              .then((response) => response.json())
-              .then((data) => document.getElementById("TabStudent").rows[i].cells[4].textContent = data.number + data.letter)
-              .catch((error) => {
-                if (window.confirm("У ученика - " + id + " нет класса.\nХотите добавить его в класс? "))
-                  window.location.assign('http://localhost:3000/classes');
-              });
-            break;
-          default:
-            console.log("Отмена удаления");
-            break;
+          })
+            .then((response) => { alert("Ученик удален"); window.location.reload() })
         }
-      } else return;
+      }
+
+
     };
   }
 
@@ -107,7 +104,6 @@ export default class Students extends Component {
           body: JSON.stringify(student),
         })
         .then((response) => alert("Новый ученик добавлен"))
-        .catch((error) => alert("Вы не можете добавлять, обратитесь к учителю или администратору"));
     }
     else {
       alert("Заполните все поля");
@@ -118,7 +114,6 @@ export default class Students extends Component {
 
   fillingtable(data) {
     let table = document.querySelector("#TabStudent");
-    //console.log(data);
     let mySet = new Set(["id", "surName", "name", "middleName"]);
 
     let i = 0;
@@ -128,15 +123,20 @@ export default class Students extends Component {
       for (let item of mySet) {
         let td = document.createElement("td");
         td.textContent = data[i][item];
+        td.addEventListener("onClick", this.handleClick());
         tr.appendChild(td);
       }
       table.appendChild(tr);
       let td = document.createElement("td");
       tr.appendChild(td);
-      td = document.createElement("td");
-      td.textContent = "X";
-      td.addEventListener("onClick", this.handleClick());
-      tr.appendChild(td);
+      if (window.ttoken.role == "SchoolAdmin") {
+        let img1 = document.createElement('img');
+        img1.width = 20;
+        img1.height = 20;
+        img1.src = "delete1.png";
+        img1.addEventListener('onClick', this.handleClick())
+        tr.appendChild(img1);
+      }
       i++;
     }
   }
@@ -183,43 +183,44 @@ export default class Students extends Component {
                   <th scope="col">Имя</th>
                   <th scope="col">Отчество</th>
                   <th className="delete" scope="col">Класс</th>
-                  <th className="delete" scope="col">Удалить</th>
+                  {window.ttoken.role == "SchoolAdmin" && <th className="delete" scope="col">Удалить</th>}
                 </tr>
               </thead>
             </table>
           </div>
           {this.getStudent()}
         </div>
-        <div className="blockadd">
-          <h1 className="head" align="center">Добавить ученика</h1>
-          <form className="addform" onSubmit={this.handleSubmit}>
-            <div className="row gy-3">
-              <div className="col-14">
-                <label>Фамилия</label>
-                <input className="form-control" type="family" id="family" />
+        {(window.ttoken.role == "SchoolAdmin" || window.ttoken.role == "Teacher") &&
+          <div className="blockadd">
+            <h1 className="head" align="center">Добавить ученика</h1>
+            <form className="addform" onSubmit={this.handleSubmit}>
+              <div className="row gy-3">
+                <div className="col-14">
+                  <label>Фамилия</label>
+                  <input className="form-control" type="family" id="family" />
+                </div>
+                <div className="col-14">
+                  <label>Имя</label>
+                  <input className="form-control" type="name" id="name" />
+                </div>
+                <div className="col-14">
+                  <label>Отчество</label>
+                  <input
+                    className="form-control"
+                    type="patronymic"
+                    id="patronymic"
+                  />
+                </div>
+                <div className="row gy-2">
+                  <input
+                    type="submit"
+                    className="sub btn btn-dark btn-lg"
+                    value="Добавить"
+                  />
+                </div>
               </div>
-              <div className="col-14">
-                <label>Имя</label>
-                <input className="form-control" type="name" id="name" />
-              </div>
-              <div className="col-14">
-                <label>Отчество</label>
-                <input
-                  className="form-control"
-                  type="patronymic"
-                  id="patronymic"
-                />
-              </div>
-              <div className="row gy-2">
-                <input
-                  type="submit"
-                  className="sub btn btn-dark btn-lg"
-                  value="Добавить"
-                />
-              </div>
-            </div>
-          </form>
-        </div>
+            </form>
+          </div>}
       </div>
     );
   }
