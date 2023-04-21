@@ -53,24 +53,23 @@ services:
     depends_on:
       - postgres
 
-  # schoolbackend:
-  #   build: 
-  #     context: .
-  #     dockerfile: ./Backend/Backend.WebApi/Dockerfile
-  #   ports:
-  #     - "80:80"
-  #     - "5041:5041"
-  #   environment:
-  #     ASPNETCORE_ENVIRONMENT: Development #Development используется для переопределения конфигов под Docker 
-  #   restart: unless-stopped
-
-  #   depends_on:
-  #     - postgres
-  #     - keycloak
-  # schoolfrontend:
-  #  build:
-  #    context: .
-  #    dockerfile: ./lab2/Dockerfile
-  #  ports:
-  #    - "3000:3000" 
-  #  restart: unless-stopped
+  schoolbackend:
+    build: 
+      context: .
+      dockerfile: ./Backend/Backend.WebApi/Dockerfile
+    ports:
+      - "80:80"
+      - "5041:5041"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development #Development используется для переопределения конфигов под Docker 
+    restart: unless-stopped
+    depends_on:
+      - postgres
+      - keycloak
+  schoolfrontend:
+   build:
+     context: .
+     dockerfile: ./lab2/Dockerfile
+   ports:
+     - "3000:3000" 
+   restart: unless-stopped
