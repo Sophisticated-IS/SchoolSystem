@@ -5,6 +5,7 @@ using Backend.Application.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace Backend.WebApi.Controllers;
 
@@ -32,7 +33,7 @@ public class PupilController : Controller
     [Authorize(Roles = "SchoolAdmin,Teacher,Pupil")]
     [HttpGet("Filter")]
     public async Task<IActionResult> GetFilteredPupils(
-        [FromQuery]Application.ApiModels.Pupil pupil)
+        [FromQuery][ValidateNever]Application.ApiModels.Pupil pupil)
     {
         var pupilWithIds = await _mediator.Send(new GetFilteredPupilsQuery(pupil.Name, pupil.SurName, pupil.MiddleName));
         return Ok(pupilWithIds);
@@ -88,6 +89,8 @@ public class PupilController : Controller
     [HttpDelete]
     public async Task<IActionResult> DeletePupil(uint pupilId)
     {
+        if (pupilId == 0) return BadRequest($"{pupilId} cannot be 0");
+
         await _mediator.Send(new DeletePupilCommand(pupilId));
         return Ok();
     }

@@ -5,6 +5,7 @@ using Backend.Application.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace Backend.WebApi.Controllers;
 
@@ -34,7 +35,7 @@ public class TeacherController : ControllerBase
     
     [Authorize(Roles = "SchoolAdmin,Teacher,Pupil")]
     [HttpGet("Filter")]
-    public async Task<IActionResult> GetFilteredTeachers([FromQuery]Application.ApiModels.Teacher teacher)
+    public async Task<IActionResult> GetFilteredTeachers([FromQuery][ValidateNever]Application.ApiModels.Teacher teacher)
     {
         var teacherWithIds = await _mediator.Send(new GetFilteredTeachersQuery(teacher.Name,teacher.SurName,teacher.MiddleName));
         return Ok(teacherWithIds);
@@ -44,6 +45,9 @@ public class TeacherController : ControllerBase
     [HttpGet("Pagination")]
     public async Task<IActionResult> GetPaginationTeachers(uint from,uint to)
     {
+        
+        if (from > to) return BadRequest($"{from} cannot be greater than {to}");
+        
         var teacherWithIds = await _mediator.Send(new GetTeacherPaginationQuery(from,to));
         return Ok(teacherWithIds);
     }
@@ -52,6 +56,9 @@ public class TeacherController : ControllerBase
     [HttpGet("{id}")]
     public async Task<IActionResult> GetTeacherById(uint id)
     {
+        
+        if (id == 0) return BadRequest($"{id} cannot be 0");
+        
         var teacherWithId = await _mediator.Send(new GetTeacherByIdQuery(id));
         return Ok(teacherWithId);
     }
@@ -69,6 +76,8 @@ public class TeacherController : ControllerBase
     [HttpPut]
     public async Task<IActionResult> UpdateTeacher(uint teacherId,uint[] classIds)  
     {
+        if (teacherId == 0) return BadRequest($"{nameof(teacherId)} cannot be 0");
+
         var updateTeacherCmd = new UpdateTeacherClassesCommand(teacherId,classIds);
         var result = await _mediator.Send(updateTeacherCmd);
         return Ok(result);
@@ -78,6 +87,8 @@ public class TeacherController : ControllerBase
     [HttpDelete]
     public async Task<IActionResult> DeleteTeacher(uint teacherId)
     {
+        if (teacherId == 0) return BadRequest($"{nameof(teacherId)} cannot be 0");
+
         await _mediator.Send(new DeleteTeacherCommand(teacherId));
         return Ok();
     }
