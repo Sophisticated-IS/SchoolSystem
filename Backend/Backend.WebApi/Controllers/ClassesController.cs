@@ -2,6 +2,7 @@
 using Backend.Application.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.WebApi.Controllers;
@@ -19,22 +20,25 @@ public class ClassesController : Controller
     
     [Authorize(Roles = "SchoolAdmin,Teacher,Pupil")]
     [HttpGet()]
-    public async Task<IEnumerable<Application.ApiModels.Class>> GetAllClasses()
+    public async Task<IActionResult> GetAllClasses()
     {
-        return await _mediator.Send(new GetAllClassesQuery());
+        var result = await _mediator.Send(new GetAllClassesQuery());
+        return Ok(result);
     }
     
     [Authorize(Roles = "SchoolAdmin,Teacher,Pupil")]
     [HttpGet("{id}")]
-    public async Task<Class> GetClassById(uint id)
+    public async Task<IActionResult> GetClassById(uint id)
     {
-        return await _mediator.Send(new GetClassByIdQuery(id));
+        var result = await _mediator.Send(new GetClassByIdQuery(id));
+        return Ok(result);
     }
 
     [Authorize(Roles = "SchoolAdmin,Teacher,Pupil")]
     [HttpGet("TeachersInClass")]
-    public async Task<IEnumerable<uint>> GetClassTeachers(uint classId)
+    public async Task<IActionResult> GetClassTeachers(uint classId)
     {
-        return await _mediator.Send(new GetClassTeacherQuery(classId));
+        var result = await _mediator.Send(new GetClassTeacherQuery(classId));
+        return Ok(result);
     }
 }
