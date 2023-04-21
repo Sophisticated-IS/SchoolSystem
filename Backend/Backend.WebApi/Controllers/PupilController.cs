@@ -42,6 +42,9 @@ public class PupilController : Controller
     [HttpGet("Pagination")]
     public async Task<IActionResult> GetPaginationPupils(uint from, uint to)
     {
+        if (from > to)
+            return BadRequest($"{from} cannot be greater than {to}");
+
         var pupilWithIds = await _mediator.Send(new GetPupilPaginationQuery(from, to));
         return Ok(pupilWithIds);
     }
@@ -51,6 +54,8 @@ public class PupilController : Controller
     [HttpGet("{id}/Class")]
     public async Task<IActionResult> GetPupilClass(uint id)
     {
+        if (id == 0) return BadRequest($"{id} cannot be 0");
+ 
         var result = await _mediator.Send(new GetPupilClassByIdQuery(id));
         return Ok(result);
     }
@@ -59,6 +64,10 @@ public class PupilController : Controller
     [HttpPut]
     public async Task<IActionResult> UpdatePupilClass(uint pupilId, uint classId)
     {
+        if (pupilId == 0) return BadRequest($"{pupilId} cannot be 0");
+
+        if (classId == 0) return BadRequest($"{classId} cannot be 0");
+
         var command = new UpdatePupilClassesCommand(pupilId, classId);
         await _mediator.Send(command);
         
@@ -69,6 +78,7 @@ public class PupilController : Controller
     [HttpPost]
     public async Task<IActionResult> CreatePupil(Application.ApiModels.Pupil pupil)
     {
+        
         var pupilCommand = _mapper.Map<CreatePupilCommand>(pupil);
         var pupilWithId = await _mediator.Send(pupilCommand);
         return Ok(pupilWithId);

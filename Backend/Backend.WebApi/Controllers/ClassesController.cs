@@ -30,13 +30,9 @@ public class ClassesController : Controller
     [HttpGet("{id}")]
     public async Task<IActionResult> GetClassById(uint id)
     {
-        if (id == 0)
-        {
-            ModelState.AddModelError(nameof(id), $"{nameof(id)} cannot be 0");
-            return BadRequest(ModelState);
-        }
-        
-        
+        if (id == 0) return BadRequest($"{nameof(id)} cannot be 0");
+
+
         var result = await _mediator.Send(new GetClassByIdQuery(id));
         return Ok(result);
     }
@@ -45,12 +41,8 @@ public class ClassesController : Controller
     [HttpGet("TeachersInClass")]
     public async Task<IActionResult> GetClassTeachers(uint classId)
     {
-        if (classId == 0)
-        {
-            ModelState.AddModelError(nameof(classId), $"{nameof(classId)} cannot be 0");
-            return BadRequest(ModelState);
-        }
-        
+        if (classId == 0) return BadRequest($"{nameof(classId)} cannot be 0");
+
         var result = await _mediator.Send(new GetClassTeacherQuery(classId));
         return Ok(result);
     }
