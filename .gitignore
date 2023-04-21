@@ -9,3 +9,8 @@ riderModule.iml
 ./Backend/Backend.Application/obj/
 ./Backend/Backend.WebApi/obj/
 
+./Backend/Backend.Domain/bin/
+./Backend/Backend.Persistence/bin/
+./Backend/Backend.Application/bin/
+./Backend/Backend.WebApi/bin/
+
