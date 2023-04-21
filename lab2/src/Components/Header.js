@@ -30,9 +30,7 @@ export default class Header extends Component {
                                 <Nav.Link href="/teachers">Список учителей</Nav.Link>
                                 <Nav.Link href="/students">Список учеников</Nav.Link>
                                 <Nav.Link href="/classes">Список классов</Nav.Link>
-                                <Nav.Link href="/authorization">
-                                    Вход
-                                </Nav.Link>
+                                <Nav.Link href="/authorization">Выход</Nav.Link>
                             </Nav>
                         </Navbar.Collapse>
                     </Container>

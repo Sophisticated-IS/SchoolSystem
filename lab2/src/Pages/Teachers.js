@@ -1,26 +1,33 @@
 import React, { Component } from 'react'
 
 var UpdateTable = true;
+var page = 0;
+var line = 0;
 
 export default class Teachers extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      family: "",
-      name: "",
-      patronymic: "",
-      comment: ""
     }
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
+    this.handleScroll = this.handleScroll.bind(this);
+  }
+
+  handleScroll(event) {
+    let heiscrol = page * 320 + 320 * (page-1)*1.4
+    if (event.target.scrollTop > heiscrol) {
+      UpdateTable = true;
+      this.getTeacher();
+    }
   }
 
   // CHECK
   handleSearch(event) {
     let search = document.getElementById("Sfiltr").value;
-    fetch("http://localhost:80/api/Teacher/Filter/"+search, {
+    fetch("http://localhost:80/api/Teacher/Filter/" + search, {
       method: "GET",
       headers:
       {
@@ -49,8 +56,8 @@ export default class Teachers extends Component {
             "authorization": `Bearer ${window.ttoken.tok}`,
           },
         })
-          .then(response => console.log(response))
-        window.location.reload();
+          .then(response => { console.log(response); window.location.reload(); })
+          .catch((error) => alert("Вы не можете удалить запись, обратитесь к администратору"))
       }
       else {
         console.log("Отмена удаления")
@@ -67,7 +74,6 @@ export default class Teachers extends Component {
       comment: document.getElementById('comment').value
     };
     if (teacher.surName !== "" && teacher.name !== "" && teacher.middleName !== "" && teacher.comment !== "") {
-      alert("Новый учитель добавлен");
       console.log(JSON.stringify(teacher));
       fetch('http://localhost:80/api/Teacher', {
         method: 'POST',
@@ -76,7 +82,9 @@ export default class Teachers extends Component {
           "authorization": `Bearer ${window.ttoken.tok}`,
         },
         body: JSON.stringify(teacher)
-      });
+      })
+        .then((response) => alert("Новый учитель добавлен"))
+        .catch((error) => alert("Вы не можете добавлять, обратитесь к учителю или администратору"));
       // .then(response => console.log(response))
       // event.preventDefault();
     }
@@ -116,7 +124,7 @@ export default class Teachers extends Component {
 
   getTeacher() {
     if (UpdateTable) {
-      fetch('http://localhost:80/api/Teacher', {
+      fetch('http://localhost/api/Teacher/Pagination?from=' + line + '&to=' + (line + 29), {
         method: "GET",
         headers:
         {
@@ -127,6 +135,8 @@ export default class Teachers extends Component {
         .then(data => this.fillingtable(data))
         .catch(error => console.log(error))
       UpdateTable = false;
+      page = page + 1;
+      line = line + 30;
     }
   }
 
@@ -140,13 +150,13 @@ export default class Teachers extends Component {
               <div className="col">
                 <input className="form-control" type='text' id='Sfiltr' />
               </div>
-              <div className="col-3">
-                <input type="submit" className="btn btn-dark" value="    Поиск    " />
+              <div className="col-1">
+                <input type="submit" className="btn btn-dark search" value="Поиск" />
               </div>
             </div>
           </form>
-          <div className="scrollbar">
-            <table id="TabTeacher" className="table table-bordered">
+          <div className="scrollbar" onScroll={this.handleScroll}>
+            <table id="TabTeacher" className="table table-hover table-bordered">
               <thead>
                 <tr>
                   <th className="delete" scope="col">ID</th>
@@ -190,6 +200,5 @@ export default class Teachers extends Component {
       </div>
     )
   }
-
 }
 

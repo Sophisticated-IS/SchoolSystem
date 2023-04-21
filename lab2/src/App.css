@@ -36,6 +36,9 @@ body {
 .baton{
   padding-top: 23px;
 }
+.search{
+  float: right;
+}
 
 /* Таблицы */
 .delete {
@@ -57,9 +60,9 @@ thead {
 
 .scrollbar{
   position: relative;
-  height: 550px;
   overflow: auto;
   margin-top: 10px;
+  height: 500px;
 }
 
 /* Блок добавления */
@@ -104,5 +107,4 @@ thead {
 .bat{
   margin-top: 15px;
 }
-
 

@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 
 var UpdateTable = true;
+var page = 0;
+var line = 0;
 
 export default class Students extends Component {
 
@@ -12,6 +14,16 @@ export default class Students extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
+    this.handleScroll = this.handleScroll.bind(this);
+  }
+
+  handleScroll(event) {
+    let heiscrol = page * 320 + 320 * (page-1)*1.4
+    if (event.target.scrollTop > heiscrol) {
+      console.log(event.target.scrollTop);
+      UpdateTable = true;
+      this.getStudent();
+    }
   }
 
   // CHECK
@@ -47,9 +59,9 @@ export default class Students extends Component {
                   "authorization": `Bearer ${window.ttoken.tok}`,
                 },
 
-              });
-              // .then(response => console.log(response))
-              window.location.reload();
+              })
+                .then((response) => {alert("Ученик удален"); window.location.reload()})
+                .catch((error) => alert("Вы не можете удалять, обратитесь к администратору"));
             }
             break;
           case 4:
@@ -83,7 +95,6 @@ export default class Students extends Component {
       middleName: document.getElementById("patronymic").value
     };
     if (student.surName !== "" && student.name !== "" && student.middleName !== "") {
-      alert("Новый ученик добавлен");
       console.log(JSON.stringify(student));
       fetch("http://localhost:80/api/Pupil",
         {
@@ -95,6 +106,8 @@ export default class Students extends Component {
           },
           body: JSON.stringify(student),
         })
+        .then((response) => alert("Новый ученик добавлен"))
+        .catch((error) => alert("Вы не можете добавлять, обратитесь к учителю или администратору"));
     }
     else {
       alert("Заполните все поля");
@@ -130,7 +143,7 @@ export default class Students extends Component {
 
   getStudent() {
     if (UpdateTable) {
-      fetch("http://localhost:80/api/pupil", {
+      fetch('http://localhost/api/Pupil/Pagination?from=' + line + '&to=' + (line + 29), {
         method: "GET",
         headers:
         {
@@ -141,6 +154,8 @@ export default class Students extends Component {
         .then((data) => this.fillingtable(data))
         .catch((error) => console.log(error));
       UpdateTable = false;
+      page = page + 1;
+      line = line + 30;
     }
   }
 
@@ -154,12 +169,12 @@ export default class Students extends Component {
               <div className="col">
                 <input className="form-control" type='text' id='Sfiltr' />
               </div>
-              <div className="col-3">
-                <input type="submit" className="btn btn-dark" value="    Поиск    " />
+              <div className="col-1">
+                <input type="submit" className="btn btn-dark search" value="Поиск" />
               </div>
             </div>
           </form>
-          <div className="scrollbar">
+          <div className="scrollbar" onScroll={this.handleScroll}>
             <table id="TabStudent" className="table table-bordered">
               <thead>
                 <tr>

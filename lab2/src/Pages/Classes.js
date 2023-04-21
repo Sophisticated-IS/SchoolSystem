@@ -26,7 +26,7 @@ export default class Classes extends Component {
           if (window.confirm("Ученик - " + idStudent + " добавлен в класс " + idClass + "\nХотите посмотреть список учеников?"))
             window.location.assign('http://localhost:3000/students');
         })
-        .catch(error => console.log(error));
+        .catch((error) => alert("Вы не можете добавлять, обратитесь к учителю или администратору"));
       event.preventDefault();
     }
     else alert("Заполните все поля");

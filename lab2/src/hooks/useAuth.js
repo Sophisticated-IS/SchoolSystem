@@ -1,11 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import Keycloak from "keycloak-js";
-
-const client = new Keycloak({
-  url: "http://localhost:8080/",
-  realm: "schoolRealm",
-  clientId: "FrontendClient",
-});
+import client from "../keypar";
 
 const useAuth = () => {
   const isRun = useRef(false);
@@ -22,6 +16,7 @@ const useAuth = () => {
       })
       .then((res) => {
         setLogin(res);
+        console.log(res);
         setToken(client.token);
       });
   }, []);
