@@ -2,6 +2,7 @@
 using Backend.Application.ApiModels;
 using Backend.Application.Commands;
 using Backend.Application.Queries;
+using Backend.WebApi.Validation;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -53,22 +54,16 @@ public class PupilController : Controller
 
     [Authorize(Roles = "SchoolAdmin,Teacher,Pupil")]
     [HttpGet("{id}/Class")]
-    public async Task<IActionResult> GetPupilClass(uint id)
+    public async Task<IActionResult> GetPupilClass([NotZero]uint id)
     {
-        if (id == 0) return BadRequest($"{id} cannot be 0");
- 
         var result = await _mediator.Send(new GetPupilClassByIdQuery(id));
         return Ok(result);
     }
 
     [Authorize(Roles = "SchoolAdmin,Teacher")]
     [HttpPut]
-    public async Task<IActionResult> UpdatePupilClass(uint pupilId, uint classId)
+    public async Task<IActionResult> UpdatePupilClass([NotZero]uint pupilId, [NotZero]uint classId)
     {
-        if (pupilId == 0) return BadRequest($"{pupilId} cannot be 0");
-
-        if (classId == 0) return BadRequest($"{classId} cannot be 0");
-
         var command = new UpdatePupilClassesCommand(pupilId, classId);
         await _mediator.Send(command);
         
@@ -87,10 +82,8 @@ public class PupilController : Controller
 
     [Authorize(Roles = "SchoolAdmin")]
     [HttpDelete]
-    public async Task<IActionResult> DeletePupil(uint pupilId)
+    public async Task<IActionResult> DeletePupil([NotZero]uint pupilId)
     {
-        if (pupilId == 0) return BadRequest($"{pupilId} cannot be 0");
-
         await _mediator.Send(new DeletePupilCommand(pupilId));
         return Ok();
     }

@@ -2,6 +2,7 @@ using AutoMapper;
 using Backend.Application.ApiModels;
 using Backend.Application.Commands;
 using Backend.Application.Queries;
+using Backend.WebApi.Validation;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -54,11 +55,8 @@ public class TeacherController : ControllerBase
     
     [Authorize(Roles = "SchoolAdmin,Teacher,Pupil")]
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetTeacherById(uint id)
+    public async Task<IActionResult> GetTeacherById([NotZero]uint id)
     {
-        
-        if (id == 0) return BadRequest($"{id} cannot be 0");
-        
         var teacherWithId = await _mediator.Send(new GetTeacherByIdQuery(id));
         return Ok(teacherWithId);
     }
@@ -74,10 +72,8 @@ public class TeacherController : ControllerBase
 
     [Authorize(Roles = "SchoolAdmin")]
     [HttpPut]
-    public async Task<IActionResult> UpdateTeacher(uint teacherId,uint[] classIds)  
+    public async Task<IActionResult> UpdateTeacher([NotZero]uint teacherId,uint[] classIds)  
     {
-        if (teacherId == 0) return BadRequest($"{nameof(teacherId)} cannot be 0");
-
         var updateTeacherCmd = new UpdateTeacherClassesCommand(teacherId,classIds);
         var result = await _mediator.Send(updateTeacherCmd);
         return Ok(result);
@@ -85,10 +81,8 @@ public class TeacherController : ControllerBase
     
     [Authorize(Roles = "SchoolAdmin")]
     [HttpDelete]
-    public async Task<IActionResult> DeleteTeacher(uint teacherId)
+    public async Task<IActionResult> DeleteTeacher([NotZero]uint teacherId)
     {
-        if (teacherId == 0) return BadRequest($"{nameof(teacherId)} cannot be 0");
-
         await _mediator.Send(new DeleteTeacherCommand(teacherId));
         return Ok();
     }

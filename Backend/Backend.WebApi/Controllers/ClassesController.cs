@@ -1,5 +1,6 @@
 ﻿using Backend.Application.ApiModels;
 using Backend.Application.Queries;
+using Backend.WebApi.Validation;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -28,21 +29,16 @@ public class ClassesController : Controller
     
     [Authorize(Roles = "SchoolAdmin,Teacher,Pupil")]
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetClassById(uint id)
+    public async Task<IActionResult> GetClassById([NotZero]uint id)
     {
-        if (id == 0) return BadRequest($"{nameof(id)} cannot be 0");
-
-
         var result = await _mediator.Send(new GetClassByIdQuery(id));
         return Ok(result);
     }
 
     [Authorize(Roles = "SchoolAdmin,Teacher,Pupil")]
     [HttpGet("TeachersInClass")]
-    public async Task<IActionResult> GetClassTeachers(uint classId)
+    public async Task<IActionResult> GetClassTeachers([NotZero]uint classId)
     {
-        if (classId == 0) return BadRequest($"{nameof(classId)} cannot be 0");
-
         var result = await _mediator.Send(new GetClassTeacherQuery(classId));
         return Ok(result);
     }
