@@ -19,7 +19,12 @@ internal sealed class GetFilteredTeachersHandler : IRequestHandler<GetFilteredTe
     public async Task<IEnumerable<TeacherWithId>> Handle(
         GetFilteredTeachersQuery request, CancellationToken cancellationToken)
     {
-        var teachers = await _schoolDbContext.Teachers.ToListAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
+        var teachers = await _schoolDbContext.Teachers
+                                             .Where(p=>p.Name.Contains(request.Name) 
+                                                       || p.SurName.Contains(request.SurName)
+                                                       || p.MiddleName.Contains(request.MiddleName))
+                                             .ToListAsync(cancellationToken: cancellationToken)
+                                             .ConfigureAwait(false);
         return teachers.Select(t => _mapper.Map<TeacherWithId>(t));
     }
 }
