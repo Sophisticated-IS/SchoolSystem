@@ -192,7 +192,7 @@ export default class Teachers extends Component {
                   <input className="form-control" type='text' id='patronymic' />
                 </div>
                 <div className="col-14">
-                  <label>Комментарий</label>
+                  <label>Телефон</label>
                   <input className="form-control" type='text' id='comment' />
                 </div>
                 <div className='row gy-2'>
