@@ -24,23 +24,30 @@ export default class Teachers extends Component {
     }
   }
 
-  // CHECK
   handleSearch(event) {
     let search = document.getElementById("Sfiltr").value;
     const allTd = document.getElementsByTagName("tr");
     for (let i = 1; i < allTd.length; i += 1) {
       allTd[i].innerHTML = '';
     }
-    fetch("http://localhost/api/Teacher/Filter?Name=" + search + "&SurName=" + search + "&MiddleName=" + search + "&Comment=" + search, {
-      method: "GET",
-      headers:
-      {
-        "authorization": `Bearer ${window.ttoken.tok}`,
-      }
-    })
-      .then((response) => response.json())
-      .then((data) => this.fillingtable(data))
-      .catch((error) => console.log(error));
+    if (search != "") {
+      fetch("http://localhost/api/Teacher/Filter?Name=" + search + "&SurName=" + search + "&MiddleName=" + search + "&Comment=" + search, {
+        method: "GET",
+        headers:
+        {
+          "authorization": `Bearer ${window.ttoken.tok}`,
+        }
+      })
+        .then((response) => response.json())
+        .then((data) => this.fillingtable(data))
+        .catch((error) => console.log(error));
+    }
+    else {
+      UpdateTable = true;
+      this.getTeacher();
+      page = 0;
+      line = 0;
+    }
     event.preventDefault();
   }
 

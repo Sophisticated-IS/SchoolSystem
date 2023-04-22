@@ -32,17 +32,24 @@ export default class Students extends Component {
     for (let i = 1; i < allTd.length; i += 1) {
       allTd[i].innerHTML = '';
     }
-
-    fetch("http://localhost/api/Pupil/Filter?Name=" + search + "&SurName=" + search + "&MiddleName=" + search, {
-      method: "GET",
-      headers:
-      {
-        "authorization": `Bearer ${window.ttoken.tok}`,
-      }
-    })
-      .then((response) => response.json())
-      .then((data) => this.fillingtable(data))
-      .catch((error) => console.log(error));
+    if (search != "") {
+      fetch("http://localhost/api/Pupil/Filter?Name=" + search + "&SurName=" + search + "&MiddleName=" + search, {
+        method: "GET",
+        headers:
+        {
+          "authorization": `Bearer ${window.ttoken.tok}`,
+        }
+      })
+        .then((response) => response.json())
+        .then((data) => this.fillingtable(data))
+        .catch((error) => console.log(error));
+    }
+    else {
+      UpdateTable = true;
+      this.getStudent();
+      page = 0;
+      line = 0;
+     }
     event.preventDefault();
   }
 

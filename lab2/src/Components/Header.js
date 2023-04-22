@@ -3,10 +3,11 @@ import { Navbar, Nav, Container } from "react-bootstrap";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import Main from "../Pages/Main";
-import Authorization from "../App";
 import Classes from "../Pages/Classes";
 import Teachers from "../Pages/Teachers";
 import Students from "../Pages/Students";
+
+let logouturl = 'http://localhost:8080/realms/schoolRealm/protocol/openid-connect/logout?';
 
 export default class Header extends Component {
 
@@ -30,18 +31,17 @@ export default class Header extends Component {
                                 <Nav.Link href="/teachers">Список учителей</Nav.Link>
                                 <Nav.Link href="/students">Список учеников</Nav.Link>
                                 <Nav.Link href="/classes">Список классов</Nav.Link>
-                                <Nav.Link href="/authorization">Выход</Nav.Link>
+                                <Nav.Link href={logouturl}>Выход</Nav.Link>
                             </Nav>
                         </Navbar.Collapse>
                     </Container>
                 </Navbar>
                 <Router>
                     <Routes>
-                        <Route expct path="/" element={<Main />} />
-                        <Route expct path="/teachers" element={<Teachers />} />
-                        <Route expct path="/students" element={<Students />} />
-                        <Route expct path="/classes" element={<Classes />} />
-                        <Route expct path="/authorization" element={<Authorization />} />
+                        <Route expct path="/" Component={Main} />
+                        <Route expct path="/teachers" Component={Teachers} />
+                        <Route expct path="/students" Component={Students} />
+                        <Route expct path="/classes" Component={Classes} />
                     </Routes>
                 </Router>
             </div>

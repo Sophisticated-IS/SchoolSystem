@@ -12,7 +12,6 @@ const parseJwt = (token) => {
 const Protected = ({ token }) => {
   const isRun = useRef(false);
 
-  // console.log(parseJwt(token).resource_access.BackendClient.roles[0]);
   window.ttoken = {
     tok: token,
     role: parseJwt(token).resource_access.BackendClient.roles[0]
