@@ -6,7 +6,6 @@ import Main from "../Pages/Main";
 import Classes from "../Pages/Classes";
 import Teachers from "../Pages/Teachers";
 import Students from "../Pages/Students";
-
 let logouturl = 'http://localhost:8080/realms/schoolRealm/protocol/openid-connect/logout?';
 
 export default class Header extends Component {
