@@ -26,3 +26,5 @@
 • Validation: DataAnnotationAttributes  
 
 # Authorization Server KeyCloak OAuth 2.0. JWT
+
+# Docker compose support
