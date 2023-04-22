@@ -11,11 +11,17 @@
 • Обработка исключительных ситуаций / REST
 
 # Frontend React js
+•  Просмотр, добавление,изменение, фильтрация, удаление учеников
+• Перевод ученика в новый класс
+•  Просмотр, добавление,изменение, фильтрация, удаление учителей
+•  Просмотр, добавление,изменение, фильтрация, удаление классов
 
 # Backend  ASP NET CORE 
-• CQRS + MeatR + EF Core
-• API supports KeyCloak Authorization and Authentication with Roles Model
-• Logger: Serilog
-•  Roles Model: Teacher, Pupil, SchoolAdmin
+• CQRS + MediatR + EF Core  
+• API supports KeyCloak Authorization and Authentication with Roles Model  
+• DataBase: PGSQL 15.2  
+• Logger: Serilog  
+• Roles Model: Teacher, Pupil, SchoolAdmin  
+• Validation: DataAnnotationAttributes  
 
 # Authorization Server KeyCloak OAuth 2.0. JWT
