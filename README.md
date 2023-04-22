@@ -18,4 +18,4 @@
 • Logger: Serilog
 •  Roles Model: Teacher, Pupil, SchoolAdmin
 
-# Authorization Server KeyClaok OAuth 2.0. JWT
+# Authorization Server KeyCloak OAuth 2.0. JWT
