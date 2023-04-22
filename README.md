@@ -1,5 +1,5 @@
 ## SchoolSystem
-# Требования
+# Requirements
 • 2-3 сущности CRUD / REST  
 • Хотя бы 1 сущность с 1:М или М:М  
 • Фильтры, сортировки, пейджинг  
@@ -27,4 +27,5 @@
 
 # Authorization Server KeyCloak OAuth 2.0. JWT
 
-# Docker compose support
+# Run
+Docker compose support
