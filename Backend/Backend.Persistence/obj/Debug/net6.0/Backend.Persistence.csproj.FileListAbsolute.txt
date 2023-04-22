@@ -1,0 +1,17 @@
+D:\LSD\LSD++\5 курс\(АУПО) Анализ уязвимостей ПО\BackFront\SchoolSystem\Backend\Backend.Persistence\bin\Debug\net6.0\Backend.Persistence.deps.json
+D:\LSD\LSD++\5 курс\(АУПО) Анализ уязвимостей ПО\BackFront\SchoolSystem\Backend\Backend.Persistence\bin\Debug\net6.0\Backend.Persistence.dll
+D:\LSD\LSD++\5 курс\(АУПО) Анализ уязвимостей ПО\BackFront\SchoolSystem\Backend\Backend.Persistence\bin\Debug\net6.0\Backend.Persistence.pdb
+D:\LSD\LSD++\5 курс\(АУПО) Анализ уязвимостей ПО\BackFront\SchoolSystem\Backend\Backend.Persistence\bin\Debug\net6.0\Backend.Application.dll
+D:\LSD\LSD++\5 курс\(АУПО) Анализ уязвимостей ПО\BackFront\SchoolSystem\Backend\Backend.Persistence\bin\Debug\net6.0\Backend.Domain.dll
+D:\LSD\LSD++\5 курс\(АУПО) Анализ уязвимостей ПО\BackFront\SchoolSystem\Backend\Backend.Persistence\bin\Debug\net6.0\Backend.Application.pdb
+D:\LSD\LSD++\5 курс\(АУПО) Анализ уязвимостей ПО\BackFront\SchoolSystem\Backend\Backend.Persistence\bin\Debug\net6.0\Backend.Domain.pdb
+D:\LSD\LSD++\5 курс\(АУПО) Анализ уязвимостей ПО\BackFront\SchoolSystem\Backend\Backend.Persistence\obj\Debug\net6.0\Backend.Persistence.csproj.AssemblyReference.cache
+D:\LSD\LSD++\5 курс\(АУПО) Анализ уязвимостей ПО\BackFront\SchoolSystem\Backend\Backend.Persistence\obj\Debug\net6.0\Backend.Persistence.GeneratedMSBuildEditorConfig.editorconfig
+D:\LSD\LSD++\5 курс\(АУПО) Анализ уязвимостей ПО\BackFront\SchoolSystem\Backend\Backend.Persistence\obj\Debug\net6.0\Backend.Persistence.AssemblyInfoInputs.cache
+D:\LSD\LSD++\5 курс\(АУПО) Анализ уязвимостей ПО\BackFront\SchoolSystem\Backend\Backend.Persistence\obj\Debug\net6.0\Backend.Persistence.AssemblyInfo.cs
+D:\LSD\LSD++\5 курс\(АУПО) Анализ уязвимостей ПО\BackFront\SchoolSystem\Backend\Backend.Persistence\obj\Debug\net6.0\Backend.Persistence.csproj.CoreCompileInputs.cache
+D:\LSD\LSD++\5 курс\(АУПО) Анализ уязвимостей ПО\BackFront\SchoolSystem\Backend\Backend.Persistence\obj\Debug\net6.0\Backend.Persistence.csproj.CopyComplete
+D:\LSD\LSD++\5 курс\(АУПО) Анализ уязвимостей ПО\BackFront\SchoolSystem\Backend\Backend.Persistence\obj\Debug\net6.0\Backend.Persistence.dll
+D:\LSD\LSD++\5 курс\(АУПО) Анализ уязвимостей ПО\BackFront\SchoolSystem\Backend\Backend.Persistence\obj\Debug\net6.0\refint\Backend.Persistence.dll
+D:\LSD\LSD++\5 курс\(АУПО) Анализ уязвимостей ПО\BackFront\SchoolSystem\Backend\Backend.Persistence\obj\Debug\net6.0\Backend.Persistence.pdb
+D:\LSD\LSD++\5 курс\(АУПО) Анализ уязвимостей ПО\BackFront\SchoolSystem\Backend\Backend.Persistence\obj\Debug\net6.0\ref\Backend.Persistence.dll

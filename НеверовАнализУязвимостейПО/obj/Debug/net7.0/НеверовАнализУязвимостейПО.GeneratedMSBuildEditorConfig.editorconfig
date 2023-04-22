@@ -1,0 +1,69 @@
+is_global = true
+build_property.TargetFramework = net7.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = НеверовАнализУязвимостейПО
+build_property.RootNamespace = НеверовАнализУязвимостейПО
+build_property.ProjectDir = d:\LSD\LSD++\5 курс\(АУПО) Анализ уязвимостей ПО\BackFront\SchoolSystem\НеверовАнализУязвимостейПО\
+build_property.RazorLangVersion = 7.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = d:\LSD\LSD++\5 курс\(АУПО) Анализ уязвимостей ПО\BackFront\SchoolSystem\НеверовАнализУязвимостейПО
+build_property._RazorSourceGeneratorDebug = 
+
+[d:/LSD/LSD++/5 курс/(АУПО) Анализ уязвимостей ПО/BackFront/SchoolSystem/НеверовАнализУязвимостейПО/App.razor]
+build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[d:/LSD/LSD++/5 курс/(АУПО) Анализ уязвимостей ПО/BackFront/SchoolSystem/НеверовАнализУязвимостейПО/Pages/Classes.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ2xhc3Nlcy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[d:/LSD/LSD++/5 курс/(АУПО) Анализ уязвимостей ПО/BackFront/SchoolSystem/НеверовАнализУязвимостейПО/Pages/Index.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXgucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[d:/LSD/LSD++/5 курс/(АУПО) Анализ уязвимостей ПО/BackFront/SchoolSystem/НеверовАнализУязвимостейПО/Pages/PacketLoad.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUGFja2V0TG9hZC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[d:/LSD/LSD++/5 курс/(АУПО) Анализ уязвимостей ПО/BackFront/SchoolSystem/НеверовАнализУязвимостейПО/Pages/Parallels.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUGFyYWxsZWxzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[d:/LSD/LSD++/5 курс/(АУПО) Анализ уязвимостей ПО/BackFront/SchoolSystem/НеверовАнализУязвимостейПО/Pages/Pupils.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHVwaWxzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[d:/LSD/LSD++/5 курс/(АУПО) Анализ уязвимостей ПО/BackFront/SchoolSystem/НеверовАнализУязвимостейПО/Pages/Teachers.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVGVhY2hlcnMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[d:/LSD/LSD++/5 курс/(АУПО) Анализ уязвимостей ПО/BackFront/SchoolSystem/НеверовАнализУязвимостейПО/Shared/SurveyPrompt.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXFN1cnZleVByb21wdC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[d:/LSD/LSD++/5 курс/(АУПО) Анализ уязвимостей ПО/BackFront/SchoolSystem/НеверовАнализУязвимостейПО/_Imports.razor]
+build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[d:/LSD/LSD++/5 курс/(АУПО) Анализ уязвимостей ПО/BackFront/SchoolSystem/НеверовАнализУязвимостейПО/Shared/MainLayout.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE1haW5MYXlvdXQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-2uvdq7i8rc
+
+[d:/LSD/LSD++/5 курс/(АУПО) Анализ уязвимостей ПО/BackFront/SchoolSystem/НеверовАнализУязвимостейПО/Shared/NavMenu.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE5hdk1lbnUucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-ssr91l9rw6
+
+[d:/LSD/LSD++/5 курс/(АУПО) Анализ уязвимостей ПО/BackFront/SchoolSystem/НеверовАнализУязвимостейПО/Pages/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXJyb3IuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[d:/LSD/LSD++/5 курс/(АУПО) Анализ уязвимостей ПО/BackFront/SchoolSystem/НеверовАнализУязвимостейПО/Pages/_Host.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX0hvc3QuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
