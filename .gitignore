@@ -4,13 +4,13 @@ riderModule.iml
 /lab2/node_modules/*
 /lab2/node_modules
 ./node_modules/
-./Backend/Backend.Domain/obj/
-./Backend/Backend.Persistence/obj/
-./Backend/Backend.Application/obj/
-./Backend/Backend.WebApi/obj/
+/Backend/Backend.Domain/obj/
+/Backend/Backend.Persistence/obj/
+/Backend/Backend.Application/obj/
+/Backend/Backend.WebApi/obj/
 
-./Backend/Backend.Domain/bin/
-./Backend/Backend.Persistence/bin/
-./Backend/Backend.Application/bin/
-./Backend/Backend.WebApi/bin/
+/Backend/Backend.Domain/bin/
+/Backend/Backend.Persistence/bin/
+/Backend/Backend.Application/bin/
+/Backend/Backend.WebApi/bin/
 
