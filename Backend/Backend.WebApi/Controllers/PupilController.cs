@@ -2,9 +2,11 @@
 using Backend.Application.ApiModels;
 using Backend.Application.Commands;
 using Backend.Application.Queries;
+using Backend.WebApi.Validation;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace Backend.WebApi.Controllers;
 
@@ -23,54 +25,66 @@ public class PupilController : Controller
 
     [Authorize(Roles = "SchoolAdmin,Teacher,Pupil")]
     [HttpGet]
-    public async Task<IEnumerable<Application.ApiModels.PupilWithId>> GetAllPupils()
+    public async Task<IActionResult> GetAllPupils()
     {
-        return await _mediator.Send(new GetAllPupilsQuery());
+        var pupilWithIds = await _mediator.Send(new GetAllPupilsQuery());
+        return Ok(pupilWithIds);
     }
 
     [Authorize(Roles = "SchoolAdmin,Teacher,Pupil")]
     [HttpGet("Filter")]
-    public async Task<IEnumerable<Application.ApiModels.PupilWithId>> GetFilteredPupils(
-        [FromQuery]Application.ApiModels.Pupil pupil)
+    public async Task<IActionResult> GetFilteredPupils(
+        [FromQuery][ValidateNever]Application.ApiModels.Pupil pupil)
     {
-        return await _mediator.Send(new GetFilteredPupilsQuery(pupil.Name, pupil.SurName, pupil.MiddleName));
+        var pupilWithIds = await _mediator.Send(new GetFilteredPupilsQuery(pupil.Name, pupil.SurName, pupil.MiddleName));
+        return Ok(pupilWithIds);
     }
 
     [Authorize(Roles = "SchoolAdmin,Teacher,Pupil")]
     [HttpGet("Pagination")]
-    public async Task<IEnumerable<Application.ApiModels.PupilWithId>> GetPaginationPupils(uint from, uint to)
+    public async Task<IActionResult> GetPaginationPupils(uint from, uint to)
     {
-        return await _mediator.Send(new GetPupilPaginationQuery(from, to));
+        if (from > to)
+            return BadRequest($"{from} cannot be greater than {to}");
+
+        var pupilWithIds = await _mediator.Send(new GetPupilPaginationQuery(from, to));
+        return Ok(pupilWithIds);
     }
 
 
     [Authorize(Roles = "SchoolAdmin,Teacher,Pupil")]
     [HttpGet("{id}/Class")]
-    public async Task<Class> GetPupilClass(uint id)
+    public async Task<IActionResult> GetPupilClass([NotZero]uint id)
     {
-        return await _mediator.Send(new GetPupilClassByIdQuery(id));
+        var result = await _mediator.Send(new GetPupilClassByIdQuery(id));
+        return Ok(result);
     }
 
     [Authorize(Roles = "SchoolAdmin,Teacher")]
     [HttpPut]
-    public async Task UpdatePupilClass(uint pupilId, uint classId)
+    public async Task<IActionResult> UpdatePupilClass([NotZero]uint pupilId, [NotZero]uint classId)
     {
         var command = new UpdatePupilClassesCommand(pupilId, classId);
         await _mediator.Send(command);
+        
+        return Ok();
     }
 
     [Authorize(Roles = "SchoolAdmin,Teacher")]
     [HttpPost]
-    public async Task<Application.ApiModels.PupilWithId> CreatePupil(Application.ApiModels.Pupil pupil)
+    public async Task<IActionResult> CreatePupil(Application.ApiModels.Pupil pupil)
     {
+        
         var pupilCommand = _mapper.Map<CreatePupilCommand>(pupil);
-        return await _mediator.Send(pupilCommand);
+        var pupilWithId = await _mediator.Send(pupilCommand);
+        return Ok(pupilWithId);
     }
 
     [Authorize(Roles = "SchoolAdmin")]
     [HttpDelete]
-    public async Task DeletePupil(uint pupilId)
+    public async Task<IActionResult> DeletePupil([NotZero]uint pupilId)
     {
         await _mediator.Send(new DeletePupilCommand(pupilId));
+        return Ok();
     }
 }

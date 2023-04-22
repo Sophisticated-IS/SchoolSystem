@@ -63,7 +63,6 @@ services:
   #   environment:
   #     ASPNETCORE_ENVIRONMENT: Development #Development используется для переопределения конфигов под Docker 
   #   restart: unless-stopped
-
   #   depends_on:
   #     - postgres
   #     - keycloak
