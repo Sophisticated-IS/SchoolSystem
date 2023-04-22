@@ -23,6 +23,11 @@
 • DataBase: PGSQL 15.2  
 • Logger: Serilog  
 • Roles Model: Teacher, Pupil, SchoolAdmin  
+Login - password for KeyCloak testing accounts 
+admintest - admin
+pupiltest - test
+teachertest - test
+
 • Validation: DataAnnotationAttributes  
 
 # Authorization Server KeyCloak OAuth 2.0. JWT
