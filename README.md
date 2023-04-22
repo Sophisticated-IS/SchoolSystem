@@ -23,10 +23,10 @@
 • DataBase: PGSQL 15.2  
 • Logger: Serilog  
 • Roles Model: Teacher, Pupil, SchoolAdmin  
-Login - password for KeyCloak testing accounts 
-admintest - admin
-pupiltest - test
-teachertest - test
+**Login - password for KeyCloak testing accounts  ** 
+admintest - admin  
+pupiltest - test  
+teachertest - test  
 
 • Validation: DataAnnotationAttributes  
 
